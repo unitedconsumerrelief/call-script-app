@@ -188,6 +188,24 @@ const flow = {
       { text: "Yes", next: "qualify" },
       { text: "No", next: "start" }
     ]
+  },
+  elevateFSPFlow: {
+    id: "elevateFSPFlow",
+    label: "Elevate Finance Program",
+    script: "Great news! Based on your state, you'll be working with Elevate Finance, LLC. They offer a comprehensive debt relief program with a 27% fee structure. Would you like to proceed with the qualification process?",
+    options: [
+      { text: "Yes", next: "checkDebt" },
+      { text: "No", next: "start" }
+    ]
+  },
+  clarityFlow: {
+    id: "clarityFlow",
+    label: "Clarity Attorney-Backed Program",
+    script: (state) => `Excellent! Based on your state, you'll be working with ${stateAttorneyMap[state]}. This is a Clarity attorney-backed program with a 27% fee structure${state === 'CO' ? ' (Note: Fresh Start Plan add-on is not available in Colorado)' : ''}. Would you like to proceed with the qualification process?`,
+    options: [
+      { text: "Yes", next: "checkDebt" },
+      { text: "No", next: "start" }
+    ]
   }
 };
 
@@ -221,7 +239,7 @@ const translatedFlow = {
     label: "Verificar Estado",
     script: "¿En qué estado reside?",
     options: [
-      { text: "Continuar", next: "checkingAccount" }
+      { text: "Continue", next: "checkingAccount" }
     ]
   },
   checkingAccount: {
@@ -291,6 +309,24 @@ const translatedFlow = {
     script: "Antes de considerar la bancarrota, exploremos si nuestro programa de alivio de deudas podría ayudar. Podemos reducir su deuda significativamente sin las consecuencias a largo plazo de la bancarrota. ¿Le gustaría saber más?",
     options: [
       { text: "Sí", next: "qualify" },
+      { text: "No", next: "start" }
+    ]
+  },
+  elevateFSPFlow: {
+    id: "elevateFSPFlow",
+    label: "Programa Elevate Finance",
+    script: "¡Buenas noticias! Según su estado, trabajará con Elevate Finance, LLC. Ofrecen un programa integral de alivio de deudas con una estructura de tarifas del 27%. ¿Le gustaría continuar con el proceso de calificación?",
+    options: [
+      { text: "Sí", next: "checkDebt" },
+      { text: "No", next: "start" }
+    ]
+  },
+  clarityFlow: {
+    id: "clarityFlow",
+    label: "Programa Clarity Respaldado por Abogados",
+    script: (state) => `¡Excelente! Según su estado, trabajará con ${stateAttorneyMap[state]}. Este es un programa Clarity respaldado por abogados con una estructura de tarifas del 27%${state === 'CO' ? ' (Nota: El plan Fresh Start no está disponible en Colorado)' : ''}. ¿Le gustaría continuar con el proceso de calificación?`,
+    options: [
+      { text: "Sí", next: "checkDebt" },
       { text: "No", next: "start" }
     ]
   }
@@ -407,67 +443,98 @@ const translatedStates = {
 
 // State to vendor mapping based on the provided list
 const stateVendorMap = {
-  'AL': 'CFLN_FSP',
   'AK': 'Elevate_FSP',
-  'AZ': 'CFLN_FSP',
-  'AR': 'CFLN_FSP',
-  'CA': 'CFLN_FSP',
-  'CO': 'CFLN_FSP',
-  'CT': 'CFLN_FSP',
-  'DE': 'Elevate_FSP',
-  'FL': 'CFLN_FSP',
-  'GA': 'CFLN_FSP',
-  'HI': 'Elevate_FSP',
-  'ID': 'CFLN_FSP',
-  'IL': 'Elevate_FSP',
+  'AL': 'Elevate_FSP',
+  'AR': 'Elevate_FSP',
+  'AZ': 'Elevate_FSP',
+  'CA': 'Elevate_FSP',
+  'CO': 'Clarity',
+  'CT': 'Clarity',
+  'DE': 'Clarity',
+  'DC': 'Clarity',
+  'FL': 'Elevate_FSP',
+  'GA': 'Clarity',
+  'HI': 'Clarity',
+  'IA': 'Clarity',
+  'ID': 'Clarity',
+  'IL': 'Clarity',
   'IN': 'Elevate_FSP',
-  'IA': 'CFLN_FSP',
-  'KS': 'Elevate_FSP',
-  'KY': 'CFLN_FSP',
+  'KS': 'Clarity',
+  'KY': 'Clarity',
   'LA': 'Elevate_FSP',
-  'ME': 'Elevate_FSP',
-  'MD': 'CFLN_FSP',
-  'MA': 'CFLN_FSP',
-  'MI': 'CFLN_FSP',
-  'MN': null,
+  'MA': 'Clarity',
+  'MD': 'Clarity',
+  'ME': 'Clarity',
+  'MI': 'Elevate_FSP',
+  'MO': 'Elevate_FSP',
   'MS': 'Elevate_FSP',
-  'MO': 'CFLN_FSP',
-  'MT': 'Elevate_FSP',
+  'MT': 'Clarity',
   'NE': 'Elevate_FSP',
-  'NV': 'CFLN_FSP',
-  'NH': 'CFLN_FSP',
-  'NJ': 'CFLN_FSP',
-  'NM': 'CFLN_FSP',
-  'NY': 'CFLN_FSP',
-  'NC': 'CFLN_FSP',
-  'ND': 'Elevate_FSP',
-  'OH': 'CFLN_FSP',
-  'OK': 'CFLN_FSP',
-  'OR': null,
-  'PA': 'CFLN_FSP',
-  'RI': 'Elevate_FSP',
-  'SC': 'Elevate_FSP',
+  'NH': 'Clarity',
+  'NJ': 'Clarity',
+  'NM': 'Elevate_FSP',
+  'NV': 'Clarity',
+  'NY': 'Elevate_FSP',
+  'NC': 'Elevate_FSP',
+  'ND': 'Clarity',
+  'OH': 'Clarity',
+  'OK': 'Elevate_FSP',
+  'PA': 'Clarity',
+  'RI': 'Clarity',
+  'SC': 'Clarity',
   'SD': 'Elevate_FSP',
-  'TN': 'CFLN_FSP',
-  'TX': 'CFLN_FSP',
-  'UT': 'CFLN_FSP',
-  'VT': 'Elevate_FSP',
-  'VA': 'Elevate_FSP',
-  'WA': null,
-  'WV': 'Elevate_FSP',
-  'WI': null,
-  'WY': 'Elevate_FSP'
+  'TN': 'Clarity',
+  'TX': 'Clarity',
+  'UT': 'Clarity',
+  'VA': 'Clarity',
+  'VT': 'Clarity',
+  'WV': 'Clarity',
+  'WY': 'Clarity',
+  'PR': 'Clarity'
 };
 
-// List of states we don't service
-const unsupportedStates = ['MN', 'OR', 'WA', 'WI'];
+// Add state to attorney/firm mapping
+const stateAttorneyMap = {
+  'CT': 'Ali Mian, Attorney At Law',
+  'DE': 'Garibian Law Offices',
+  'DC': 'Attorney M Edvard Shprukhman',
+  'GA': 'Attorney M Edvard Shprukhman',
+  'IA': 'Attorney Kent Cobb',
+  'ID': 'Law Offices of Zachary Derr',
+  'IL': 'Attorney Kent Cobb',
+  'KS': 'Law Office of Phillips & Raney',
+  'KY': 'Taylor Kain Law Office',
+  'MA': 'McCarthy Law, LLC',
+  'MD': 'Attorney M Edvard Shprukhman',
+  'ME': 'Bopp & Guecia Attorneys at Law',
+  'MT': 'Law Offices of Janice Lorrah',
+  'NH': 'Ali Mian, Attorney At Law',
+  'NJ': 'Attorney M Edvard Shprukhman',
+  'NV': 'David Salmon & Associates',
+  'ND': 'Attorney Kent Cobb',
+  'OH': 'Law Offices of Barbara Tavaglione',
+  'PA': 'Attorney M Edvard Shprukhman',
+  'RI': 'McCarthy Law, LLC',
+  'SC': 'Attorney Bethany Lockliear',
+  'TN': 'Ginsburg Law Group',
+  'TX': 'Ginsburg Law Group',
+  'UT': 'Owings Law (Lisa Owings)',
+  'VA': 'Law Offices of James W. Curd',
+  'WV': 'M Edvard Shprukhman',
+  'VT': 'Law Offices of William van Zyverde',
+  'WY': 'Attorney Kent Cobb',
+  'PR': 'Mayra Romero, Esq.'
+};
 
-// Special notes for certain states
+// Add special notes for states
 const stateNotes = {
   'CO': 'FRESH START PLAN (ADD ON) is not offered in Colorado. Clients will have the option to pay for discount legal defense but it\'s not included in the debt settlement service.',
   'NJ': 'No direct mail allowed in New Jersey',
   'OH': 'No direct mail allowed in Ohio'
 };
+
+// List of states we don't service
+const unsupportedStates = ['MN', 'OR', 'WA', 'WI'];
 
 function App() {
   const [language, setLanguage] = useState("en");
@@ -533,9 +600,11 @@ function App() {
 
   const handleStateSelection = useCallback((state) => {
     setSelectedState(state);
+    addToLog(`Selected state: ${state}`);
     
     if (unsupportedStates.includes(state)) {
       addToLog(`State "${state}" is not currently serviced`);
+      setStep(currentFlow.notQualified);
       return;
     }
 
@@ -546,11 +615,16 @@ function App() {
     }
 
     if (vendor === 'Elevate_FSP') {
-      addToLog(`Routing ${state} to Elevate Finance, LLC (Elevate_FSP)`);
-      setStep(currentFlow.elevateFSPFlow);
-    } else if (vendor === 'CFLN_FSP') {
-      addToLog(`Routing ${state} to CFLN_FSP`);
-      setStep(currentFlow.cflnFSPFlow);
+      addToLog(`Routing ${state} to Elevate Finance, LLC`);
+      const nextStep = currentFlow.elevateFSPFlow;
+      setStep(nextStep);
+    } else if (vendor === 'Clarity') {
+      addToLog(`Routing ${state} to Clarity - ${stateAttorneyMap[state]}`);
+      const nextStep = {
+        ...currentFlow.clarityFlow,
+        script: currentFlow.clarityFlow.script(state)
+      };
+      setStep(nextStep);
     }
   }, [addToLog, currentFlow]);
 
@@ -798,12 +872,15 @@ function App() {
                       <div className="mt-2 border-t border-gray-200 pt-2 grid grid-cols-2 gap-2">
                         <button
                           onClick={() => {
-                            const prevStep = Object.values(flow).find(step => 
+                            const prevStep = Object.values(currentFlow).find(step => 
                               step.options && step.options.some(opt => opt.next === currentStep.id)
                             );
                             if (prevStep) {
                               setStep(prevStep);
                               addToLog(`Moved back to "${prevStep.label}"`);
+                            } else if (currentStep.id === "elevateFSPFlow" || currentStep.id === "clarityFlow") {
+                              setStep(currentFlow.checkState);
+                              addToLog(`Moved back to "${currentFlow.checkState.label}"`);
                             }
                           }}
                           className="bg-blue-600 text-white py-1 px-2 text-xs rounded hover:bg-blue-700 text-center"
