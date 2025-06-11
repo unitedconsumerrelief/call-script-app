@@ -2,6 +2,7 @@
   "name": "call-script-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://DuckVader611.github.io/call-script-app",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -15,6 +16,7 @@
     "@babel/plugin-transform-runtime": "^7.27.4",
     "@babel/runtime": "^7.27.6",
     "autoprefixer": "^10.4.14",
+    "gh-pages": "^6.1.1",
     "postcss": "^8.4.27",
     "tailwindcss": "^3.3.3"
   },
@@ -22,7 +24,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [

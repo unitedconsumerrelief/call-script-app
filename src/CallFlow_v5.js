@@ -844,9 +844,9 @@ function App() {
               {/* Logo */}
               <div className="flex justify-center mb-6">
                 <img 
-                  src="/images/UCR.jpg"
+                  src="YOUR_LOGO_URL_HERE"
                   alt="United Consumer Relief Logo"
-                  className="h-48 object-contain"
+                  className="h-16 object-contain"
                 />
               </div>
               
@@ -969,6 +969,17 @@ function App() {
                           Note: {stateNotes[selectedState]}
                         </p>
                       )}
+                      <button
+                        onClick={handleStateStepContinue}
+                        disabled={!selectedState}
+                        className={`mt-4 w-full py-2 px-4 rounded ${
+                          selectedState
+                            ? 'bg-blue-600 text-white hover:bg-blue-700'
+                            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                        }`}
+                      >
+                        {language === "es" ? "Continuar" : "Continue"}
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -1003,19 +1014,8 @@ function App() {
                     currentStep.options.map((option, idx) => (
                       <button
                         key={idx}
-                        onClick={() => {
-                          if (currentStep.id === "checkState" && option.text === "Continue") {
-                            handleStateStepContinue();
-                          } else {
-                            handleStepChange(option);
-                          }
-                        }}
-                        disabled={currentStep.id === "checkState" && option.text === "Continue" && !selectedState}
-                        className={`bg-blue-600 text-white py-1 px-3 text-sm rounded hover:bg-blue-700 text-left ${
-                          currentStep.id === "checkState" && option.text === "Continue" && !selectedState
-                            ? 'opacity-50 cursor-not-allowed'
-                            : ''
-                        }`}
+                        onClick={() => handleStepChange(option)}
+                        className="bg-blue-600 text-white py-1 px-3 text-sm rounded hover:bg-blue-700 text-left"
                       >
                         {option.text}
                       </button>
@@ -1136,7 +1136,7 @@ function App() {
             {/* Call Completion Checklist */}
             <div className="mt-4 border-t pt-4">
               <h3 className="font-semibold mb-2">
-                {language === "es" ? "Lista de Verificación del Agente" : "Agent Checklist"}
+                {language === "es" ? "Lista de Verificación de Llamada" : "Call Completion Checklist"}
               </h3>
               
               {/* Progress Bar */}
@@ -1214,19 +1214,26 @@ function App() {
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
             <h2 className="text-xl font-semibold text-green-600 mb-4">
-              {language === "es" ? "Objeción Seleccionada" : "Selected Objection"}
+              {language === "es" ? "Objeciones Seleccionadas" : "Selected Objections"}
             </h2>
-            <div className="mb-4">
-              <h3 className="font-medium mb-2">{selectedObjection}</h3>
-              <p className="text-gray-700 bg-gray-50 p-4 rounded-md">
-                {currentObjectionMap[selectedObjection]}
-              </p>
+            <p className="mb-4">
+              {language === "es"
+                ? "Por favor, seleccione una objeción para obtener más información."
+                : "Please select an objection for more information."}
+            </p>
+            <div className="space-y-2">
+              {filteredObjections.map((objection, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => handleObjectionSelect(objection)}
+                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full text-left"
+                >
+                  {objection}
+                </button>
+              ))}
             </div>
             <button
-              onClick={() => {
-                setShowObjections(false);
-                setSearchTerm("");
-              }}
+              onClick={() => setShowObjections(false)}
               className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 mt-4 w-full"
             >
               {language === "es" ? "Cerrar" : "Close"}
