@@ -90,7 +90,7 @@ const flow = {
   start: {
     id: "start",
     label: "Introduction",
-    script: "Good morning/afternoon, thank you for calling United Consumer Relief. This is [Agent Name]. How can I assist you today?",
+    script: "Good morning/afternoon! Thanks for calling the Debt Relief Center — this is [Agent Name]. How can we help you get a fresh start with your debts today?",
     options: [{ text: "Continue", next: "qualify" }]
   },
   qualify: {
