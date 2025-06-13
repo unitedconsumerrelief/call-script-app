@@ -534,7 +534,7 @@ const stateNotes = {
 };
 
 // List of states we don't service
-const unsupportedStates = ['MN', 'OR', 'WA', 'WI'];
+const unsupportedStates = ['MN', 'OR'];
 
 function App() {
   const [language, setLanguage] = useState("en");
@@ -680,13 +680,15 @@ function App() {
       return;
     }
 
-    // Determine available flows for the selected state
-    const vendor = stateVendorMap[selectedState];
+    // New logic for flow availability
     let flows = [];
-    if (vendor === 'Elevate_FSP') flows.push('Elevate');
-    if (vendor === 'Clarity') flows.push('Clarity');
-    // If both are available (customize as needed)
-    // flows = ['Elevate', 'Clarity'];
+    if (selectedState === 'OR') {
+      flows = ['Elevate']; // Only Elevate for Oregon
+    } else if (selectedState === 'WA' || selectedState === 'WI') {
+      flows = ['Clarity']; // Only Clarity for Washington and Wisconsin
+    } else {
+      flows = ['Elevate', 'Clarity']; // All other states get both
+    }
 
     setAvailableFlows(flows);
     setShowFlowSelectModal(true);
