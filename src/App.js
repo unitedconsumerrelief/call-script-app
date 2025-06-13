@@ -194,7 +194,7 @@ const flow = {
     label: "Elevate Finance Program",
     script: "Great news! Based on your state, you'll be working with Elevate Finance, LLC. They offer a comprehensive debt relief program with a 27% fee structure. Would you like to proceed with the qualification process?",
     options: [
-      { text: "Yes", next: "checkDebt" },
+      { text: "Yes", next: "softCreditPull" },
       { text: "No", next: "start" }
     ]
   },
@@ -203,8 +203,16 @@ const flow = {
     label: "Clarity Attorney-Backed Program",
     script: (state) => `Excellent! Based on your state, you'll be working with ${stateAttorneyMap[state]}. This is a Clarity attorney-backed program with a 27% fee structure${state === 'CO' ? ' (Note: Fresh Start Plan add-on is not available in Colorado)' : ''}. Would you like to proceed with the qualification process?`,
     options: [
-      { text: "Yes", next: "checkDebt" },
+      { text: "Yes", next: "softCreditPull" },
       { text: "No", next: "start" }
+    ]
+  },
+  softCreditPull: {
+    id: "softCreditPull",
+    label: "Soft Credit Pull",
+    script: "Thanks for confirming, we will now do a soft-credit pull as required by the program. This may or may not affect your credit score, but you can rest assured that going through the program will yield more benefits than any temporary impact. In fact, many of our clients see their credit improve over time as their debt decreases and accounts are settled.",
+    options: [
+      { text: "Continue", next: "checkDebt" }
     ]
   }
 };
@@ -317,7 +325,7 @@ const translatedFlow = {
     label: "Programa Elevate Finance",
     script: "¡Buenas noticias! Según su estado, trabajará con Elevate Finance, LLC. Ofrecen un programa integral de alivio de deudas con una estructura de tarifas del 27%. ¿Le gustaría continuar con el proceso de calificación?",
     options: [
-      { text: "Yes", next: "checkDebt" },
+      { text: "Yes", next: "softCreditPull" },
       { text: "No", next: "start" }
     ]
   },
@@ -326,8 +334,16 @@ const translatedFlow = {
     label: "Programa Clarity Respaldado por Abogados",
     script: (state) => `¡Excelente! Según su estado, trabajará con ${stateAttorneyMap[state]}. Este es un programa Clarity respaldado por abogados con una estructura de tarifas del 27%${state === 'CO' ? ' (Nota: El plan Fresh Start no está disponible en Colorado)' : ''}. ¿Le gustaría continuar con el proceso de calificación?`,
     options: [
-      { text: "Yes", next: "checkDebt" },
+      { text: "Yes", next: "softCreditPull" },
       { text: "No", next: "start" }
+    ]
+  },
+  softCreditPull: {
+    id: "softCreditPull",
+    label: "Soft Credit Pull",
+    script: "Thanks for confirming, we will now do a soft-credit pull as required by the program. This may or may not affect your credit score, but you can rest assured that going through the program will yield more benefits than any temporary impact. In fact, many of our clients see their credit improve over time as their debt decreases and accounts are settled.",
+    options: [
+      { text: "Continue", next: "checkDebt" }
     ]
   }
 };
@@ -825,6 +841,42 @@ function App() {
     }
   }, [currentStep.id, language, selectedState, handleStateSelection]);
 
+  // Add state for qualification modal and checklist
+  const [showQualificationModal, setShowQualificationModal] = useState(false);
+  const [qualificationChecklist, setQualificationChecklist] = useState({
+    minTotalDebt: false,
+    minPerCreditor: false,
+    acceptableDebtTypes: false,
+    monthlyPayment: false,
+    programDuration: false,
+    autoDraft: false,
+    firstPayment: false,
+    paymentToEachCreditor: false,
+    documentation: false,
+    accountNumbers: false,
+    complianceCall: false,
+    acceptableCreditors: false,
+    noUnacceptableDebt: false,
+    noUnacceptableCreditors: false,
+    noOtherDisqualifiers: false
+  });
+
+  // Handler for checklist toggle
+  const handleQualificationToggle = (key) => {
+    setQualificationChecklist(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  // Handler for continue from soft credit pull
+  const handleSoftCreditPullContinue = () => {
+    setShowQualificationModal(true);
+  };
+
+  // Handler for continue from qualification modal
+  const handleQualificationContinue = () => {
+    setShowQualificationModal(false);
+    setStep(flow.checkDebt); // or next appropriate step
+  };
+
   return (
     <div className="min-h-screen flex flex-row relative">
       {/* Left Panel - Objections */}
@@ -994,30 +1046,14 @@ function App() {
               )}
 
               <div>
-                <div className="grid gap-1 w-64">
-                  {currentStep.id === "checkDebt" ? (
-                    <>
-                      <button
-                        type="button"
-                        onClick={() => totalDebt >= 10000 && handleStepChange({ text: "≥ $10,000", next: "checkState" })}
-                        disabled={totalDebt < 10000}
-                        aria-disabled={totalDebt < 10000}
-                        className={`py-1 px-3 text-sm rounded text-left ${
-                          totalDebt >= 10000 
-                            ? 'bg-blue-600 text-white hover:bg-blue-700 cursor-pointer' 
-                            : 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-50 pointer-events-none'
-                        }`}
-                      >
-                        {language === "es" ? "≥ $10,000" : "≥ $10,000"}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleStepChange({ text: "< $10,000", next: "notQualified" })}
-                        className="bg-blue-600 text-white py-1 px-3 text-sm rounded hover:bg-blue-700 text-left cursor-pointer"
-                      >
-                        {language === "es" ? "< $10,000" : "< $10,000"}
-                      </button>
-                    </>
+                <div className="grid gap-1 w-64 mx-auto">
+                  {currentStep.id === "softCreditPull" ? (
+                    <button
+                      className="bg-blue-600 text-white py-1 px-3 text-sm rounded hover:bg-blue-700 text-left"
+                      onClick={handleSoftCreditPullContinue}
+                    >
+                      Continue
+                    </button>
                   ) : (
                     currentStep.options.map((option, idx) => (
                       <button
@@ -1040,35 +1076,31 @@ function App() {
                       </button>
                     ))
                   )}
-                  
-                  {/* Navigation Buttons */}
                   {currentStep.id !== "start" && (
                     <>
-                      <div className="mt-2 border-t border-gray-200 pt-2 grid grid-cols-2 gap-2">
-                        <button
-                          onClick={() => {
-                            const prevStep = Object.values(currentFlow).find(step => 
-                              step.options && step.options.some(opt => opt.next === currentStep.id)
-                            );
-                            if (prevStep) {
-                              setStep(prevStep);
-                              addToLog(`Moved back to "${prevStep.label}"`);
-                            } else if (currentStep.id === "elevateFSPFlow" || currentStep.id === "clarityFlow") {
-                              setStep(currentFlow.checkState);
-                              addToLog(`Moved back to "${currentFlow.checkState.label}"`);
-                            }
-                          }}
-                          className="bg-blue-600 text-white py-1 px-2 text-xs rounded hover:bg-blue-700 text-center"
-                        >
-                          {language === "es" ? "← Atrás" : "← Back"}
-                        </button>
-                        <button
-                          onClick={handleHomeClick}
-                          className="bg-red-600 text-white py-1 px-2 text-xs rounded hover:bg-red-700 text-center"
-                        >
-                          {language === "es" ? "🏠 Inicio" : "🏠 Home"}
-                        </button>
-                      </div>
+                      <button
+                        onClick={() => {
+                          const prevStep = Object.values(currentFlow).find(step =>
+                            step.options && step.options.some(opt => opt.next === currentStep.id)
+                          );
+                          if (prevStep) {
+                            setStep(prevStep);
+                            addToLog(`Moved back to "${prevStep.label}"`);
+                          } else if (currentStep.id === "elevateFSPFlow" || currentStep.id === "clarityFlow") {
+                            setStep(currentFlow.checkState);
+                            addToLog(`Moved back to "${currentFlow.checkState.label}"`);
+                          }
+                        }}
+                        className="bg-blue-600 text-white py-1 px-3 text-sm rounded hover:bg-blue-700 text-center"
+                      >
+                        {language === "es" ? "← Atrás" : "← Back"}
+                      </button>
+                      <button
+                        onClick={handleHomeClick}
+                        className="bg-red-600 text-white py-1 px-3 text-sm rounded hover:bg-red-700 text-center"
+                      >
+                        {language === "es" ? "🏠 Inicio" : "🏠 Home"}
+                      </button>
                     </>
                   )}
                 </div>
@@ -1317,6 +1349,67 @@ function App() {
             >
               Cancel
             </button>
+          </div>
+        </div>
+      )}
+
+      {showQualificationModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-[700px] max-h-[90vh] overflow-y-auto text-left">
+            <h2 className="text-2xl font-bold mb-4 text-center">Qualification Criteria</h2>
+            <div className="mb-4">
+              <h3 className="font-semibold mb-2">Debt Requirements</h3>
+              <ul className="mb-2 space-y-1">
+                <li><input type="checkbox" checked={qualificationChecklist.minTotalDebt} onChange={() => handleQualificationToggle('minTotalDebt')} /> <span className="ml-2">Minimum total debt: $10,000 in acceptable debt</span></li>
+                <li><input type="checkbox" checked={qualificationChecklist.minPerCreditor} onChange={() => handleQualificationToggle('minPerCreditor')} /> <span className="ml-2">Minimum per creditor: $500</span></li>
+                <li><input type="checkbox" checked={qualificationChecklist.acceptableDebtTypes} onChange={() => handleQualificationToggle('acceptableDebtTypes')} /> <span className="ml-2">Acceptable debt types: Major credit cards, department store cards, unsecured personal/bank loans, gas cards, jewelry cards, computers, cell phones (not current carrier), back rent (not current residence), medical debt (max 25% of total), private student loans (max 25%, must be out of school and show proof it's private), high-interest (payday/tribal) loans (max 25%, conditions apply), auto/motorcycle loan deficiencies (3rd-party collections only, documentation required), business debts (if business is closed, conditions apply), utilities (not current residence), cash advances (original documentation required)</span></li>
+              </ul>
+              <h3 className="font-semibold mb-2">Monthly Payment Minimums by Debt Load</h3>
+              <ul className="mb-2 space-y-1">
+                <li><input type="checkbox" checked={qualificationChecklist.monthlyPayment} onChange={() => handleQualificationToggle('monthlyPayment')} /> <span className="ml-2">$10k–$19,999: $310/mo | $20k–$29,999: $350/mo | $30k+: $450/mo</span></li>
+              </ul>
+              <h3 className="font-semibold mb-2">Program Duration Limits</h3>
+              <ul className="mb-2 space-y-1">
+                <li><input type="checkbox" checked={qualificationChecklist.programDuration} onChange={() => handleQualificationToggle('programDuration')} /> <span className="ml-2">Max 60 months (based on number of accounts and total debt)</span></li>
+              </ul>
+              <h3 className="font-semibold mb-2">Client Payment Requirements</h3>
+              <ul className="mb-2 space-y-1">
+                <li><input type="checkbox" checked={qualificationChecklist.autoDraft} onChange={() => handleQualificationToggle('autoDraft')} /> <span className="ml-2">Must be auto-drafted (no mail-in payments)</span></li>
+                <li><input type="checkbox" checked={qualificationChecklist.firstPayment} onChange={() => handleQualificationToggle('firstPayment')} /> <span className="ml-2">First payment: 7–30 days after submission (10+ days for CA)</span></li>
+                <li><input type="checkbox" checked={qualificationChecklist.paymentToEachCreditor} onChange={() => handleQualificationToggle('paymentToEachCreditor')} /> <span className="ml-2">At least 1 payment must have been made to each enrolled creditor</span></li>
+              </ul>
+              <h3 className="font-semibold mb-2">Documentation Requirements</h3>
+              <ul className="mb-2 space-y-1">
+                <li><input type="checkbox" checked={qualificationChecklist.documentation} onChange={() => handleQualificationToggle('documentation')} /> <span className="ml-2">SSN, signed agreement, hardship note, payment info, full budget in CRM</span></li>
+                <li><input type="checkbox" checked={qualificationChecklist.accountNumbers} onChange={() => handleQualificationToggle('accountNumbers')} /> <span className="ml-2">Account numbers and balances for all enrolled debts</span></li>
+                <li><input type="checkbox" checked={qualificationChecklist.complianceCall} onChange={() => handleQualificationToggle('complianceCall')} /> <span className="ml-2">Compliance call with a manager (not the rep)</span></li>
+              </ul>
+              <h3 className="font-semibold mb-2">Specific Acceptable Creditors</h3>
+              <ul className="mb-2 space-y-1">
+                <li><input type="checkbox" checked={qualificationChecklist.acceptableCreditors} onChange={() => handleQualificationToggle('acceptableCreditors')} /> <span className="ml-2">BOA, Chase, Wells Fargo, Capital One, etc. Navy FCU and USAA (with limitations), Discover and AmEx (each must be &lt;70% of total debt), Oportun credit cards (not in CA), Rise (not in CA)</span></li>
+              </ul>
+              <h3 className="font-semibold mb-2 text-red-600">❌ Disqualifiers / Unacceptable Debt</h3>
+              <ul className="mb-2 space-y-1">
+                <li><input type="checkbox" checked={qualificationChecklist.noUnacceptableDebt} onChange={() => handleQualificationToggle('noUnacceptableDebt')} /> <span className="ml-2">No secured loans, federally backed student loans, military accounts/cards, auto/motorcycle loans (unless deficiency with 3rd party), mortgage/home equity loans, property taxes, judgments, alimony, child support, gambling debts, timeshares, bail bonds, credit union loans/lines (only credit cards may be acceptable)</span></li>
+                <li><input type="checkbox" checked={qualificationChecklist.noUnacceptableCreditors} onChange={() => handleQualificationToggle('noUnacceptableCreditors')} /> <span className="ml-2">No unacceptable creditors: SoFi (federally backed), Rocket Loans, Tower Loan, Aqua Finance, ISPC, Military Star, RC Willey, Aaron's, CNH Industrial, OMNI Financial, KOALAFI (leasing agreements), Altura Credit Union, Mariner, Republic, Security, World Finance, BHG, Duvera Finance, GRT American Financial</span></li>
+                <li><input type="checkbox" checked={qualificationChecklist.noOtherDisqualifiers} onChange={() => handleQualificationToggle('noOtherDisqualifiers')} /> <span className="ml-2">No other disqualifiers: client must have made at least 1 payment, no secured liabilities or open asset accounts at same CU as enrolled credit card, files over $150,000 need pre-approval, military/clearance holders need supervisor consent, must provide validation documentation within 14 days</span></li>
+              </ul>
+            </div>
+            <div className="flex justify-end mt-4">
+              <button
+                className={`bg-blue-600 text-white py-2 px-6 rounded hover:bg-blue-700 font-semibold ${Object.values(qualificationChecklist).every(Boolean) ? '' : 'opacity-50 cursor-not-allowed'}`}
+                onClick={handleQualificationContinue}
+                disabled={!Object.values(qualificationChecklist).every(Boolean)}
+              >
+                Continue
+              </button>
+              <button
+                className="ml-4 text-gray-500 hover:underline"
+                onClick={() => setShowQualificationModal(false)}
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       )}
