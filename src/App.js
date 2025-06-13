@@ -666,6 +666,10 @@ function App() {
     }
   }, [addToLog]);
 
+  // Add state for flow selection modal
+  const [showFlowSelectModal, setShowFlowSelectModal] = useState(false);
+  const [availableFlows, setAvailableFlows] = useState([]);
+
   const handleStateStepContinue = useCallback(() => {
     if (!selectedState) {
       return;
@@ -676,20 +680,33 @@ function App() {
       return;
     }
 
+    // Determine available flows for the selected state
     const vendor = stateVendorMap[selectedState];
-    
-    if (vendor === 'Elevate_FSP') {
-      addToLog(`Routing ${selectedState} to Elevate Finance, LLC`);
+    let flows = [];
+    if (vendor === 'Elevate_FSP') flows.push('Elevate');
+    if (vendor === 'Clarity') flows.push('Clarity');
+    // If both are available (customize as needed)
+    // flows = ['Elevate', 'Clarity'];
+
+    setAvailableFlows(flows);
+    setShowFlowSelectModal(true);
+  }, [selectedState, currentFlow, addToLog]);
+
+  // Handler for user selecting a flow from the modal
+  const handleFlowSelect = (flowName) => {
+    setShowFlowSelectModal(false);
+    if (flowName === 'Elevate') {
+      addToLog(`User selected Elevate flow for ${selectedState}`);
       setStep(currentFlow.elevateFSPFlow);
-    } else if (vendor === 'Clarity') {
-      addToLog(`Routing ${selectedState} to Clarity - ${stateAttorneyMap[selectedState]}`);
+    } else if (flowName === 'Clarity') {
+      addToLog(`User selected Clarity flow for ${selectedState}`);
       const nextStep = {
         ...currentFlow.clarityFlow,
         script: currentFlow.clarityFlow.script(selectedState)
       };
       setStep(nextStep);
     }
-  }, [selectedState, currentFlow, addToLog]);
+  };
 
   const handleObjectionSelect = useCallback((objection) => {
     setSearchTerm(objection);
@@ -1265,6 +1282,39 @@ function App() {
                 {language === "es" ? "Continuar Trabajando" : "Continue Working"}
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {showFlowSelectModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
+            <h2 className="text-lg font-semibold mb-4">Select a Flow</h2>
+            <p className="mb-4">Which program would you like to proceed with for {selectedState}?</p>
+            <div className="flex flex-col gap-3">
+              <button
+                className={`py-2 px-4 rounded font-semibold transition-colors duration-150
+                  ${availableFlows.includes('Elevate') ? 'bg-blue-600 text-white hover:bg-blue-700 cursor-pointer' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
+                onClick={() => availableFlows.includes('Elevate') && handleFlowSelect('Elevate')}
+                disabled={!availableFlows.includes('Elevate')}
+              >
+                Elevate Finance Program
+              </button>
+              <button
+                className={`py-2 px-4 rounded font-semibold transition-colors duration-150
+                  ${availableFlows.includes('Clarity') ? 'bg-green-600 text-white hover:bg-green-700 cursor-pointer' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
+                onClick={() => availableFlows.includes('Clarity') && handleFlowSelect('Clarity')}
+                disabled={!availableFlows.includes('Clarity')}
+              >
+                Clarity Attorney-Backed Program
+              </button>
+            </div>
+            <button
+              className="mt-4 text-gray-500 hover:underline"
+              onClick={() => setShowFlowSelectModal(false)}
+            >
+              Cancel
+            </button>
           </div>
         </div>
       )}
