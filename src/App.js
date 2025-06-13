@@ -1046,7 +1046,7 @@ function App() {
               )}
 
               <div>
-                <div className="grid gap-1 w-64 mx-auto">
+                <div className="grid gap-1 w-64 ml-0">
                   {currentStep.id === "softCreditPull" ? (
                     <button
                       className="bg-blue-600 text-white py-1 px-3 text-sm rounded hover:bg-blue-700 text-left"
@@ -1361,7 +1361,7 @@ function App() {
               <h3 className="font-semibold mb-2">Debt Requirements</h3>
               <ul className="mb-2 space-y-1">
                 <li><input type="checkbox" checked={qualificationChecklist.minTotalDebt} onChange={() => handleQualificationToggle('minTotalDebt')} /> <span className="ml-2">Minimum total debt: $10,000 in acceptable debt</span></li>
-                <li><input type="checkbox" checked={qualificationChecklist.minPerCreditor} onChange={() => handleQualificationToggle('minPerCreditor')} /> <span className="ml-2">Minimum per creditor: $500</span></li>
+                <li><input type="checkbox" checked={qualificationChecklist.minPerCreditor} onChange={() => handleQualificationToggle('minPerCreditor')} /> <span className="ml-2">Minimum per creditor: $500 (Elevate) / $250 (Clarity)</span></li>
                 <li><input type="checkbox" checked={qualificationChecklist.acceptableDebtTypes} onChange={() => handleQualificationToggle('acceptableDebtTypes')} /> <span className="ml-2">Acceptable debt types: Major credit cards, department store cards, unsecured personal/bank loans, gas cards, jewelry cards, computers, cell phones (not current carrier), back rent (not current residence), medical debt (max 25% of total), private student loans (max 25%, must be out of school and show proof it's private), high-interest (payday/tribal) loans (max 25%, conditions apply), auto/motorcycle loan deficiencies (3rd-party collections only, documentation required), business debts (if business is closed, conditions apply), utilities (not current residence), cash advances (original documentation required)</span></li>
               </ul>
               <h3 className="font-semibold mb-2">Monthly Payment Minimums by Debt Load</h3>
