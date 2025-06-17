@@ -96,16 +96,24 @@ const flow = {
   qualify: {
     id: "qualify",
     label: "Qualification",
-    script: "You've come to the right place. Can I ask you a few quick questions to check if you qualify?",
+    script: "You've come to the right place. We can help reduce all of your debts, save you thousands of dollars, and even pay them off sooner than you thought. This allows you to have more money in your pockets for the things you really need, instead of paying interest and fees on these debts! Before we get started, can I please get your Name and the State you are calling from?",
     options: [
-      { text: "Yes", next: "employmentCheck" },
+      { text: "Yes", next: "checkState" },
       { text: "No", next: "start" }
+    ]
+  },
+  checkState: {
+    id: "checkState",
+    label: "Check State",
+    script: "Which state do you reside in?",
+    options: [
+      { text: "Continue", next: "employmentCheck" }
     ]
   },
   employmentCheck: {
     id: "employmentCheck",
     label: "Employment Check",
-    script: "Are you currently employed or have a steady source of income? This is important as we need to ensure you can make the monthly payments for the program.",
+    script: "To make sure we are getting you the highest debt removal program, we need to some information before moving forward, can you please confirm that you are currently employed or receiving any income?",
     options: [
       { text: "Yes", next: "checkDebt" },
       { text: "No", next: "notQualified" }
@@ -114,16 +122,64 @@ const flow = {
   checkDebt: {
     id: "checkDebt",
     label: "Check Debt Amount",
-    script: "What is your total unsecured debt amount? We typically work with clients who have $10,000 or more in debt.",
+    script: "Ok great, now can you go over the different types of debt you have that you want to save money on? Remember we can save you 50% on these debts so please let me know the type of debt/who you owe, and how much you owe to them",
     options: [
-      { text: "≥ $10,000", next: "checkState" },
+      { text: "≥ $10,000", next: "debtConfirmation" },
       { text: "< $10,000", next: "consumerShieldFlow" }
     ]
   },
-  checkState: {
-    id: "checkState",
-    label: "Check State",
-    script: "Which state do you reside in?",
+  debtConfirmation: {
+    id: "debtConfirmation",
+    label: "Debt Confirmation",
+    script: "Ok congratulations! Looks like the types of debt we went over are all qualified for our program. Now we just do need to confirm these with the creditors, so we are going to get some more information from you and do a SOFT credit pull. This will not affect your credit in any way, it just lets me see the report so I can confirm all of the debts and then we're almost done!",
+    options: [
+      { text: "Continue", next: "addressConfirmation" }
+    ]
+  },
+  addressConfirmation: {
+    id: "addressConfirmation",
+    label: "Address Confirmation",
+    script: "First we're going to start with your home address, can you please spell out your address for me? Please also let me know if you have a suite or apartment number.",
+    options: [
+      { text: "Continue", next: "employmentConfirmation" }
+    ]
+  },
+  employmentConfirmation: {
+    id: "employmentConfirmation",
+    label: "Employment Confirmation",
+    script: "Ok now let's go over your employment. You said you're currently working, can you please give me the name of the company you are working for?\n\nThanks, and What is your position there, and how long have you worked there?\n\nPerfect! Do you have their address off of the top of your head? If not I can find it on the internet, don't worry!",
+    options: [
+      { text: "Continue", next: "ssnConfirmation" }
+    ]
+  },
+  ssnConfirmation: {
+    id: "ssnConfirmation",
+    label: "SSN Confirmation",
+    script: "Now the final step before we go ahead and confirm everything with the creditors, can I please have your social security number?",
+    options: [
+      { text: "Continue", next: "hardshipInformation" }
+    ]
+  },
+  hardshipInformation: {
+    id: "hardshipInformation",
+    label: "Hardship Information",
+    script: "Ok great thank you! Everything looks good here, I'm just going to go ahead and confirm all of these numbers we went over and then I'll be able to tell you exactly how many thousands of dollars you'll be saving.\n\nNow while I'm doing this, our teams what work with your debts will ask how come you don't want to pay the full amount, or how come you are unable to pay the full amount? This can be because you are not getting paid enough at your job, maybe you had some medical expenses, even car expenses or home expenses rising can be a reason. Can you please give me what I should put here as an explanation?",
+    options: [
+      { text: "Continue", next: "softCreditPull" }
+    ]
+  },
+  selectedFlow: {
+    id: "selectedFlow",
+    label: "Selected Flow",
+    script: (state) => {
+      const vendor = stateVendorMap[state];
+      if (vendor === 'Elevate_FSP') {
+        return "Great news! Based on your state, you'll be working with Elevate Finance, LLC. They offer a comprehensive debt relief program with a 27% fee structure.";
+      } else if (vendor === 'Clarity') {
+        return `Excellent! Based on your state, you'll be working with ${stateAttorneyMap[state]}. This is a Clarity attorney-backed program with a 27% fee structure${state === 'CO' ? ' (Note: Fresh Start Plan add-on is not available in Colorado)' : ''}.`;
+      }
+      return "Proceeding with your selected program...";
+    },
     options: [
       { text: "Continue", next: "checkingAccount" }
     ]
@@ -219,7 +275,7 @@ const flow = {
   softCreditPull: {
     id: "softCreditPull",
     label: "Soft Credit Pull",
-    script: "Thanks for confirming, we will now do a soft-credit pull as required by the program. This may or may not affect your credit score, but you can rest assured that going through the program will yield more benefits than any temporary impact. In fact, many of our clients see their credit improve over time as their debt decreases and accounts are settled.",
+    script: "We will now do a soft-credit pull as required by the program. This may or may not affect your credit score, but you can rest assured that going through the program will yield more benefits than any temporary impact. In fact, many of our clients see their credit improve over time as their debt decreases and accounts are settled.",
     options: [
       { text: "Continue", next: "checkDebt" }
     ]
@@ -279,8 +335,16 @@ const translatedFlow = {
     label: "Calificación",
     script: "Ha llegado al lugar correcto. ¿Puedo hacerle algunas preguntas rápidas para verificar si califica?",
     options: [
-      { text: "Sí", next: "employmentCheck" },
+      { text: "Sí", next: "checkState" },
       { text: "No", next: "start" }
+    ]
+  },
+  checkState: {
+    id: "checkState",
+    label: "Verificar Estado",
+    script: "¿En qué estado reside?",
+    options: [
+      { text: "Continuar", next: "employmentCheck" }
     ]
   },
   employmentCheck: {
@@ -295,18 +359,66 @@ const translatedFlow = {
   checkDebt: {
     id: "checkDebt",
     label: "Verificar Monto de Deuda",
-    script: "¿Cuál es el monto total de su deuda no garantizada? Típicamente trabajamos con clientes que tienen $10,000 o más en deudas.",
+    script: "Ok great, ahora puede pasar por las diferentes clases de deuda que tiene para ahorrar dinero. Recuerde que podemos ahorrarle el 50% en estas deudas, así que por favor háganme saber el tipo de deuda/a quién le debe, y cuánto le debe a ellos",
     options: [
-      { text: "≥ $10,000", next: "checkState" },
+      { text: "≥ $10,000", next: "debtConfirmation" },
       { text: "< $10,000", next: "consumerShieldFlow" }
     ]
   },
-  checkState: {
-    id: "checkState",
-    label: "Verificar Estado",
-    script: "¿En qué estado reside?",
+  debtConfirmation: {
+    id: "debtConfirmation",
+    label: "Confirmación de Deuda",
+    script: "¡Felicitaciones! Parece que los tipos de deuda que revisamos califican para nuestro programa. Ahora solo necesitamos confirmar esto con los acreedores, así que vamos a obtener más información de usted y hacer una verificación de crédito SUAVE. Esto no afectará su crédito de ninguna manera, solo me permite ver el informe para confirmar todas las deudas y ¡casi terminamos!",
     options: [
-      { text: "Continue", next: "checkingAccount" }
+      { text: "Continue", next: "addressConfirmation" }
+    ]
+  },
+  addressConfirmation: {
+    id: "addressConfirmation",
+    label: "Confirmación de Dirección",
+    script: "Primero vamos a comenzar con su dirección de casa, ¿podría deletrearme su dirección? Por favor, también indíqueme si tiene un número de suite o apartamento.",
+    options: [
+      { text: "Continue", next: "employmentConfirmation" }
+    ]
+  },
+  employmentConfirmation: {
+    id: "employmentConfirmation",
+    label: "Confirmación de Empleo",
+    script: "Ahora vamos a revisar su empleo. Dijo que actualmente está trabajando, ¿podría decirme el nombre de la empresa para la que trabaja?\n\nGracias, y ¿cuál es su cargo allí y cuánto tiempo ha trabajado allí?\n\n¡Perfecto! ¿Tiene su dirección de memoria? Si no, puedo encontrarla en internet, ¡no se preocupe!",
+    options: [
+      { text: "Continuar", next: "ssnConfirmation" }
+    ]
+  },
+  ssnConfirmation: {
+    id: "ssnConfirmation",
+    label: "Confirmación de SSN",
+    script: "Ahora el paso final antes de proceder y confirmar todo con los acreedores, ¿podría proporcionarme su número de seguro social?",
+    options: [
+      { text: "Continuar", next: "hardshipInformation" }
+    ]
+  },
+  hardshipInformation: {
+    id: "hardshipInformation",
+    label: "Información de Dificultad",
+    script: "¡Ok, muchas gracias! Todo se ve bien aquí, voy a confirmar todos estos números que revisamos y luego podré decirte exactamente cuántos miles de dólares estarás ahorrando.\n\nMientras hago esto, nuestros equipos que trabajan con sus deudas preguntarán por qué no quiere pagar el monto completo, o por qué no puede pagar el monto completo. Esto puede ser porque no está ganando lo suficiente en su trabajo, tal vez tuvo algunos gastos médicos, incluso los gastos del automóvil o del hogar pueden ser una razón. ¿Podría decirme qué debo poner aquí como explicación?",
+    options: [
+      { text: "Continuar", next: "softCreditPull" }
+    ]
+  },
+  selectedFlow: {
+    id: "selectedFlow",
+    label: "Selected Flow",
+    script: (state) => {
+      const vendor = stateVendorMap[state];
+      if (vendor === 'Elevate_FSP') {
+        return "¡Buenas noticias! Según su estado, trabajará con Elevate Finance, LLC. Ofrecen un programa integral de alivio de deudas con una estructura de tarifas del 27%.";
+      } else if (vendor === 'Clarity') {
+        return `¡Excelente! Según su estado, trabajará con ${stateAttorneyMap[state]}. Este es un programa Clarity respaldado por abogados con una estructura de tarifas del 27%${state === 'CO' ? ' (Nota: El plan Fresh Start no está disponible en Colorado)' : ''}.`;
+      }
+      return "Continuando con su programa seleccionado...";
+    },
+    options: [
+      { text: "Continuar", next: "checkingAccount" }
     ]
   },
   checkingAccount: {
@@ -400,7 +512,7 @@ const translatedFlow = {
   softCreditPull: {
     id: "softCreditPull",
     label: "Soft Credit Pull",
-    script: "Thanks for confirming, we will now do a soft-credit pull as required by the program. This may or may not affect your credit score, but you can rest assured that going through the program will yield more benefits than any temporary impact. In fact, many of our clients see their credit improve over time as their debt decreases and accounts are settled.",
+    script: "We will now do a soft-credit pull as required by the program. This may or may not affect your credit score, but you can rest assured that going through the program will yield more benefits than any temporary impact. In fact, many of our clients see their credit improve over time as their debt decreases and accounts are settled.",
     options: [
       { text: "Continue", next: "checkDebt" }
     ]
@@ -780,12 +892,20 @@ function App() {
   }, []);
 
   const handleStepChange = useCallback((option) => {
-    setStep(prev => {
-      const nextStep = currentFlow[option.next];
-      addToLog(`Moved from "${prev.label}" to "${nextStep.label}"`);
-      return nextStep;
-    });
-  }, [currentFlow, addToLog]);
+    if (currentStep.id === "checkDebt") {
+      if (option.text === "≥ $10,000") {
+        setStep(currentFlow.debtConfirmation);
+      } else {
+        setStep(currentFlow.consumerShieldFlow);
+      }
+    } else {
+      setStep(prev => {
+        const nextStep = currentFlow[option.next];
+        addToLog(`Moved from "${prev.label}" to "${nextStep.label}"`);
+        return nextStep;
+      });
+    }
+  }, [currentStep, currentFlow, addToLog]);
 
   const handleStateSelection = useCallback((state) => {
     setSelectedState(state);
@@ -826,21 +946,17 @@ function App() {
 
     setAvailableFlows(flows);
     setShowFlowSelectModal(true);
-  }, [selectedState, currentFlow, addToLog]);
+  }, [selectedState, currentFlow]);
 
   // Handler for user selecting a flow from the modal
   const handleFlowSelect = (flowName) => {
     setShowFlowSelectModal(false);
     if (flowName === 'Elevate') {
       addToLog(`User selected Elevate flow for ${selectedState}`);
-      setStep(currentFlow.elevateFSPFlow);
+      setStep(currentFlow.employmentCheck);
     } else if (flowName === 'Clarity') {
       addToLog(`User selected Clarity flow for ${selectedState}`);
-      const nextStep = {
-        ...currentFlow.clarityFlow,
-        script: currentFlow.clarityFlow.script(selectedState)
-      };
-      setStep(nextStep);
+      setStep(currentFlow.employmentCheck);
     }
   };
 
@@ -1408,7 +1524,16 @@ function App() {
                       className="h-4 w-4 text-blue-600 rounded border-gray-300"
                     />
                     <label className="ml-2 text-sm">
-                      {`Item ${itemNumber}`}
+                      {itemNumber === "1" && "Input Contact Name and State in Forth → If Oregon, Consumer Shield Flow"}
+                      {itemNumber === "2" && "Address Information"}
+                      {itemNumber === "3" && "Employment Information"}
+                      {itemNumber === "4" && "Social Security Number"}
+                      {itemNumber === "5" && "Additional Information (Language)"}
+                      {itemNumber === "6" && "Hardship Information"}
+                      {itemNumber === "7" && `Item ${itemNumber}`}
+                      {itemNumber === "8" && `Item ${itemNumber}`}
+                      {itemNumber === "9" && `Item ${itemNumber}`}
+                      {itemNumber === "10" && `Item ${itemNumber}`}
                     </label>
                   </div>
                 ))}
