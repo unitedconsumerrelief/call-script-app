@@ -98,8 +98,17 @@ const flow = {
     label: "Qualification",
     script: "You've come to the right place. Can I ask you a few quick questions to check if you qualify?",
     options: [
-      { text: "Yes", next: "checkDebt" },
+      { text: "Yes", next: "employmentCheck" },
       { text: "No", next: "start" }
+    ]
+  },
+  employmentCheck: {
+    id: "employmentCheck",
+    label: "Employment Check",
+    script: "Are you currently employed or have a steady source of income? This is important as we need to ensure you can make the monthly payments for the program.",
+    options: [
+      { text: "Yes", next: "checkDebt" },
+      { text: "No", next: "notQualified" }
     ]
   },
   checkDebt: {
@@ -108,7 +117,7 @@ const flow = {
     script: "What is your total unsecured debt amount? We typically work with clients who have $10,000 or more in debt.",
     options: [
       { text: "≥ $10,000", next: "checkState" },
-      { text: "< $10,000", next: "notQualified" }
+      { text: "< $10,000", next: "consumerShieldFlow" }
     ]
   },
   checkState: {
@@ -214,6 +223,47 @@ const flow = {
     options: [
       { text: "Continue", next: "checkDebt" }
     ]
+  },
+  consumerShieldFlow: {
+    id: "consumerShieldFlow",
+    label: "Consumer Shield Program",
+    script: "Based on your debt amount, you may qualify for the Consumer Shield program. This program is designed for clients with $5,550 or more in enrolled debt, a minimum payment of $220/month, and a plan term of 24 months (under $8,800) or 36 months (over $8,800). All enrolled accounts must have a balance of at least $200. The initial payment must be within 18 days of enrollment. Would you like to proceed with the qualification process?",
+    options: [
+      { text: "Yes", next: "consumerShieldSoftCreditPull" },
+      { text: "No", next: "start" }
+    ]
+  },
+  consumerShieldSoftCreditPull: {
+    id: "consumerShieldSoftCreditPull",
+    label: "Consumer Shield Soft Credit Pull",
+    script: "Thanks for confirming, we will now do a soft-credit pull as required by the Consumer Shield program. This may or may not affect your credit score, but you can rest assured that going through the program will yield more benefits than any temporary impact. Would you like to continue?",
+    options: [
+      { text: "Continue", next: "consumerShieldCheckState" }
+    ]
+  },
+  consumerShieldCheckState: {
+    id: "consumerShieldCheckState",
+    label: "Consumer Shield State Check",
+    script: "Which state do you reside in? (Consumer Shield is not available in CO, PA, NJ, OR)",
+    options: [
+      { text: "Continue", next: "consumerShieldQualified" }
+    ]
+  },
+  consumerShieldQualified: {
+    id: "consumerShieldQualified",
+    label: "Consumer Shield Qualified",
+    script: "Great news! Based on what you've shared, you qualify for the Consumer Shield program. Let me explain how it works...",
+    options: [
+      { text: "Start Over", next: "start" }
+    ]
+  },
+  consumerShieldNotQualified: {
+    id: "consumerShieldNotQualified",
+    label: "Consumer Shield Not Qualified",
+    script: "I apologize, but based on the information provided, you do not qualify for the Consumer Shield program. Here are some alternative resources that might help...",
+    options: [
+      { text: "Start Over", next: "start" }
+    ]
   }
 };
 
@@ -229,8 +279,17 @@ const translatedFlow = {
     label: "Calificación",
     script: "Ha llegado al lugar correcto. ¿Puedo hacerle algunas preguntas rápidas para verificar si califica?",
     options: [
-      { text: "Sí", next: "checkDebt" },
+      { text: "Sí", next: "employmentCheck" },
       { text: "No", next: "start" }
+    ]
+  },
+  employmentCheck: {
+    id: "employmentCheck",
+    label: "Verificación de Empleo",
+    script: "¿Está empleado actualmente o tiene una fuente estable de ingresos? Esto es importante ya que necesitamos asegurarnos de que pueda hacer los pagos mensuales para el programa.",
+    options: [
+      { text: "Sí", next: "checkDebt" },
+      { text: "No", next: "notQualified" }
     ]
   },
   checkDebt: {
@@ -239,7 +298,7 @@ const translatedFlow = {
     script: "¿Cuál es el monto total de su deuda no garantizada? Típicamente trabajamos con clientes que tienen $10,000 o más en deudas.",
     options: [
       { text: "≥ $10,000", next: "checkState" },
-      { text: "< $10,000", next: "notQualified" }
+      { text: "< $10,000", next: "consumerShieldFlow" }
     ]
   },
   checkState: {
@@ -344,6 +403,47 @@ const translatedFlow = {
     script: "Thanks for confirming, we will now do a soft-credit pull as required by the program. This may or may not affect your credit score, but you can rest assured that going through the program will yield more benefits than any temporary impact. In fact, many of our clients see their credit improve over time as their debt decreases and accounts are settled.",
     options: [
       { text: "Continue", next: "checkDebt" }
+    ]
+  },
+  consumerShieldFlow: {
+    id: "consumerShieldFlow",
+    label: "Programa de Protección al Consumidor",
+    script: "Basado en su monto de deuda, podría calificar para el Programa de Protección al Consumidor. Este programa está diseñado para clientes con $5,550 o más en deudas adeudadas, un pago mínimo de $220/mes, y un término de plan de 24 meses (menos de $8,800) o 36 meses (más de $8,800). Todas las cuentas adeudadas deben tener un saldo de al menos $200. El pago inicial debe realizarse dentro de los 18 días de inscripción. ¿Le gustaría proceder con el proceso de calificación?",
+    options: [
+      { text: "Sí", next: "consumerShieldSoftCreditPull" },
+      { text: "No", next: "start" }
+    ]
+  },
+  consumerShieldSoftCreditPull: {
+    id: "consumerShieldSoftCreditPull",
+    label: "Pull de Crédito Suave para Protección al Consumidor",
+    script: "Gracias por confirmar, ahora haremos un pull de crédito suave como se requiere por el Programa de Protección al Consumidor. Esto puede o no afectar su puntaje de crédito, pero puede estar tranquilo de que seguir este programa le dará más beneficios que cualquier impacto temporal. ¿Le gustaría continuar?",
+    options: [
+      { text: "Continuar", next: "consumerShieldCheckState" }
+    ]
+  },
+  consumerShieldCheckState: {
+    id: "consumerShieldCheckState",
+    label: "Revisión de Estado para Protección al Consumidor",
+    script: "¿En qué estado reside? (El Programa de Protección al Consumidor no está disponible en CO, PA, NJ, OR)",
+    options: [
+      { text: "Continuar", next: "consumerShieldQualified" }
+    ]
+  },
+  consumerShieldQualified: {
+    id: "consumerShieldQualified",
+    label: "Calificado para Protección al Consumidor",
+    script: "¡Buenas noticias! Según lo que ha compartido, califica para el Programa de Protección al Consumidor. Permítame explicarte cómo funciona...",
+    options: [
+      { text: "Comenzar de Nuevo", next: "start" }
+    ]
+  },
+  consumerShieldNotQualified: {
+    id: "consumerShieldNotQualified",
+    label: "No Calificado para Protección al Consumidor",
+    script: "Lo siento, pero según la información proporcionada, no calificas para el Programa de Protección al Consumidor. Aquí hay algunos recursos alternativos que podrían ayudar...",
+    options: [
+      { text: "Comenzar de Nuevo", next: "start" }
     ]
   }
 };
@@ -552,6 +652,9 @@ const stateNotes = {
 // List of states we don't service
 const unsupportedStates = ['MN', 'OR'];
 
+// Add Consumer Shield unsupported states
+const consumerShieldUnsupportedStates = ["CO", "PA", "NJ", "OR"];
+
 function App() {
   const [language, setLanguage] = useState("en");
   const [step, setStep] = useState(flow.start);
@@ -564,6 +667,10 @@ function App() {
   const [selectedState, setSelectedState] = useState("");
   const [showDisqualificationModal, setShowDisqualificationModal] = useState(false);
   const [showChecklistWarning, setShowChecklistWarning] = useState(false);
+  const [showDebtWarningModal, setShowDebtWarningModal] = useState(false);
+  const [showDebtSuccessModal, setShowDebtSuccessModal] = useState(false);
+  const [showDebtAmountWarningModal, setShowDebtAmountWarningModal] = useState(false);
+  const [lowDebtType, setLowDebtType] = useState("");
   const [checklist, setChecklist] = useState({
     1: false,
     2: false,
@@ -594,7 +701,18 @@ function App() {
     (Object.values(checklist).filter(Boolean).length / Object.keys(checklist).length) * 100
   );
 
-  // Handle debt amount changes
+  // Add function to check single debt amount
+  const checkSingleDebtAmount = (amount, type) => {
+    const parsedAmount = parseFloat(amount) || 0;
+    if (parsedAmount > 0 && parsedAmount < 250) {
+      setLowDebtType(type);
+      setShowDebtAmountWarningModal(true);
+      setShowDebtWarningModal(false);
+      setShowDebtSuccessModal(false);
+    }
+  };
+
+  // Update handleDebtAmountChange to include the check
   const handleDebtAmountChange = (index, value) => {
     const cleanValue = value.replace(/[^0-9.]/g, '');
     setDebtEntries(prev => {
@@ -877,6 +995,50 @@ function App() {
     setStep(flow.checkDebt); // or next appropriate step
   };
 
+  // Update function to check debt percentages and amounts
+  const checkDebtPercentages = () => {
+    // Check for debts below $250
+    const lowDebtEntry = debtEntries.find(entry => 
+      entry.type && parseFloat(entry.amount) > 0 && parseFloat(entry.amount) < 250
+    );
+
+    if (lowDebtEntry) {
+      setLowDebtType(lowDebtEntry.type);
+      setShowDebtAmountWarningModal(true);
+      setShowDebtWarningModal(false);
+      setShowDebtSuccessModal(false);
+      return;
+    }
+
+    const medicalAndStudentDebt = debtEntries.reduce((sum, entry) => {
+      if (entry.type === "Medical Bills" || entry.type === "Private Student Loans") {
+        return sum + (parseFloat(entry.amount) || 0);
+      }
+      return sum;
+    }, 0);
+
+    const percentage = (medicalAndStudentDebt / totalDebt) * 100;
+    if (percentage > 50) {
+      setShowDebtWarningModal(true);
+      setShowDebtSuccessModal(false);
+      setShowDebtAmountWarningModal(false);
+    } else {
+      setShowDebtSuccessModal(true);
+      setShowDebtWarningModal(false);
+      setShowDebtAmountWarningModal(false);
+    }
+  };
+
+  // Add function to handle adding new debt entry
+  const handleAddDebtEntry = () => {
+    setDebtEntries(prev => [...prev, { type: "", amount: 0 }]);
+  };
+
+  // Add function to handle removing debt entry
+  const handleRemoveDebtEntry = (index) => {
+    setDebtEntries(prev => prev.filter((_, i) => i !== index));
+  };
+
   return (
     <div className="min-h-screen flex flex-row relative">
       {/* Left Panel - Objections */}
@@ -974,18 +1136,32 @@ function App() {
                               <label className="block text-sm font-medium text-gray-700 mb-1">
                                 {language === "es" ? "Cantidad" : "Amount"}
                               </label>
-                              <input
-                                type="text"
-                                value={entry.amount === 0 ? '' : entry.amount}
-                                onChange={(e) => handleDebtAmountChange(index, e.target.value)}
-                                placeholder="$0.00"
-                                disabled={!entry.type || unacceptableDebtTypes.includes(entry.type)}
-                                className={`w-full p-2 border rounded ${
-                                  !entry.type || unacceptableDebtTypes.includes(entry.type)
-                                    ? 'bg-gray-100 text-gray-500 cursor-not-allowed'
-                                    : 'bg-white'
-                                }`}
-                              />
+                              <div className="flex gap-2">
+                                <input
+                                  type="text"
+                                  value={entry.amount === 0 ? '' : entry.amount}
+                                  onChange={(e) => handleDebtAmountChange(index, e.target.value)}
+                                  onBlur={() => checkSingleDebtAmount(entry.amount, entry.type)}
+                                  placeholder="$0.00"
+                                  disabled={!entry.type || unacceptableDebtTypes.includes(entry.type)}
+                                  className={`w-full p-2 border rounded ${
+                                    !entry.type || unacceptableDebtTypes.includes(entry.type)
+                                      ? 'bg-gray-100 text-gray-500 cursor-not-allowed'
+                                      : 'bg-white'
+                                  }`}
+                                />
+                                {debtEntries.length > 1 && (
+                                  <button
+                                    onClick={() => handleRemoveDebtEntry(index)}
+                                    className="p-2 text-red-600 hover:text-red-800"
+                                    title="Remove debt entry"
+                                  >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                      <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+                                    </svg>
+                                  </button>
+                                )}
+                              </div>
                               {entry.type && unacceptableDebtTypes.includes(entry.type) && (
                                 <p className="mt-1 text-xs text-red-600">
                                   {language === "es" 
@@ -998,17 +1174,34 @@ function App() {
                         </div>
                       ))}
 
+                      {/* Add Debt Button */}
+                      <button
+                        onClick={handleAddDebtEntry}
+                        className="mt-4 w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
+                        </svg>
+                        Add Debt
+                      </button>
+
                       {/* Total */}
-                      <div className="mt-4 pt-4 border-t">
-                        <div className="flex justify-between items-center">
-                          <span className="font-semibold">
-                            {language === "es" ? "Total de Deuda:" : "Total Debt:"}
-                          </span>
-                          <span className="text-xl font-bold text-blue-600">
-                            {formatCurrency(totalDebt)}
-                          </span>
-                        </div>
+                      <div className="flex justify-between items-center mt-4">
+                        <span className="font-semibold">
+                          {language === "es" ? "Total de Deuda:" : "Total Debt:"}
+                        </span>
+                        <span className="text-xl font-bold text-blue-600">
+                          {formatCurrency(totalDebt)}
+                        </span>
                       </div>
+
+                      {/* Check Debt Button */}
+                      <button
+                        onClick={checkDebtPercentages}
+                        className="mt-4 w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
+                      >
+                        Check Debt
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -1410,6 +1603,61 @@ function App() {
                 Cancel
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Debt Warning Modal */}
+      {showDebtWarningModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-[500px] max-h-[90vh] overflow-y-auto text-left">
+            <h2 className="text-xl font-bold mb-4 text-red-600">Warning</h2>
+            <p className="mb-4">Medical Bills / Student Loans should not exceed 50% of the total debt</p>
+            <div className="bg-yellow-100 p-4 rounded-md mb-4">
+              <p className="font-bold text-yellow-800">Send to Clarity</p>
+            </div>
+            <button
+              onClick={() => setShowDebtWarningModal(false)}
+              className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Debt Success Modal */}
+      {showDebtSuccessModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-[500px] max-h-[90vh] overflow-y-auto text-left">
+            <h2 className="text-xl font-bold mb-4 text-green-600">Success</h2>
+            <p className="mb-4">Debt Total Check Cleared</p>
+            <button
+              onClick={() => setShowDebtSuccessModal(false)}
+              className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition-colors"
+            >
+              Proceed
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Debt Amount Warning Modal */}
+      {showDebtAmountWarningModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-[500px] max-h-[90vh] overflow-y-auto text-left">
+            <h2 className="text-xl font-bold mb-4 text-red-600">Warning</h2>
+            <p className="mb-4">Debt Not Qualified</p>
+            <p className="mb-4 text-gray-700">The following debt type has an amount below $250:</p>
+            <div className="bg-red-100 p-4 rounded-md mb-4">
+              <p className="font-bold text-red-800">{lowDebtType}</p>
+            </div>
+            <button
+              onClick={() => setShowDebtAmountWarningModal(false)}
+              className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
+            >
+              Close
+            </button>
           </div>
         </div>
       )}
