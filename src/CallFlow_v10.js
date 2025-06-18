@@ -95,6 +95,50 @@ const flow = {
     label: "Hardship Information",
     script: "Ok great thank you! Everything looks good here, I'm just going to go ahead and confirm all of these numbers we went over and then I'll be able to tell you exactly how many thousands of dollars you'll be saving.\n\nNow while I'm doing this, our teams what work with your debts will ask how come you don't want to pay the full amount, or how come you are unable to pay the full amount? This can be because you are not getting paid enough at your job, maybe you had some medical expenses, even car expenses or home expenses rising can be a reason. Can you please give me what I should put here as an explanation?",
     options: [
+      { text: "Continue", next: "accountConfirmation" }
+    ]
+  },
+  accountConfirmation: {
+    id: "accountConfirmation",
+    label: "Account Confirmation",
+    script: "Ok we have all of the information we need, let me just confirm these accounts with you one last time.",
+    note: "Review item lines one by one and ensure they are valid for our programs. Refer to the MASTER GUIDE",
+    options: [
+      { text: "Continue", next: "paymentSummary" }
+    ]
+  },
+  paymentSummary: {
+    id: "paymentSummary",
+    label: "Payment Summary",
+    script: "So it looks like for your bills, you are currently paying $XXX.XX for all of these debts every month, and we can bring this down to $YYY.YY. That's not all, we are also going to make sure that instead of Z years of making your payments, you will be fully paying off these debts in just XX months (or X years).\n\nYou're saving thousands of dollars overall, and you're going to be debt free very soon - how does that sound to you?",
+    note1: "If there are items not on the credit report that the person has mentioned, we need them to send us the latest statement.",
+    note2: "If they prefer, we can push to semi-monthly payments instead",
+    options: [
+      { text: "Continue", next: "backEndSelection" }
+    ]
+  },
+  backEndSelection: {
+    id: "backEndSelection",
+    label: "Back-End Selection",
+    script: "If you're ready to move forward, I will be reading some explanations to you so you fully understand our program, and also needed for a quality check from our team that will be contacting you and the people you owe money to",
+    options: [
+      { text: "Elevate", next: "programExplanation" },
+      { text: "Clarity", next: "programExplanation" }
+    ]
+  },
+  programExplanation: {
+    id: "programExplanation",
+    label: "Program Explanation",
+    script: "I am going to start explaining, and please let me know if you have any questions. We offer a program called \"Debt Settlement\" which is where we have a team that works for you, and speaks to the people you owe money to on your behalf.  \n\nWe will provide you with all of the documents that inform the people you owe money to to not contact you anymore, and instead they will be contacting our team. If they ever do contact you, you will tell them to contact us instead and you do not need to provide them with any explanations.\n\nWe will be setting up a \"Trust\" account for you, which is in your name, and instead of paying the people you owe money to, you will be putting the money in your Trust account. Aside from any fees, rest assured that this is all of your money.",
+    options: [
+      { text: "Continue", next: "budgetAnalysis" }
+    ]
+  },
+  budgetAnalysis: {
+    id: "budgetAnalysis",
+    label: "Budget Analysis",
+    script: "Our team develops a Settlement Plan with your creditors, and once your term is complete, the money gets sent to your creditors and the account is closed, you will not owe any additional money to them.\n\nDo you have any questions?\n\nOk great, I also want you to understand that our teams have been doing this for years and have saved Americans like you millions of dollars, and there is no other program like ours.\n\nWith our payment plan, we just need to review your budget plan to make sure you are comfortable with the payments, can we go over this?",
+    options: [
       { text: "Continue", next: "softCreditPull" }
     ]
   }

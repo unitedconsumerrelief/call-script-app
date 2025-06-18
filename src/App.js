@@ -165,7 +165,142 @@ const flow = {
     label: "Hardship Information",
     script: "Ok great thank you! Everything looks good here, I'm just going to go ahead and confirm all of these numbers we went over and then I'll be able to tell you exactly how many thousands of dollars you'll be saving.\n\nNow while I'm doing this, our teams what work with your debts will ask how come you don't want to pay the full amount, or how come you are unable to pay the full amount? This can be because you are not getting paid enough at your job, maybe you had some medical expenses, even car expenses or home expenses rising can be a reason. Can you please give me what I should put here as an explanation?",
     options: [
+      { text: "Continue", next: "accountConfirmation" }
+    ]
+  },
+  accountConfirmation: {
+    id: "accountConfirmation",
+    label: "Account Confirmation",
+    script: "Ok we have all of the information we need, let me just confirm these accounts with you one last time.",
+    note: "Review item lines one by one and ensure they are valid for our programs. Refer to the MASTER GUIDE",
+    options: [
+      { text: "Continue", next: "paymentSummary" }
+    ]
+  },
+  paymentSummary: {
+    id: "paymentSummary",
+    label: "Payment Summary",
+    script: "So it looks like for your bills, you are currently paying $XXX.XX for all of these debts every month, and we can bring this down to $YYY.YY. That's not all, we are also going to make sure that instead of Z years of making your payments, you will be fully paying off these debts in just XX months (or X years).\n\nYou're saving thousands of dollars overall, and you're going to be debt free very soon - how does that sound to you?",
+    note1: "If there are items not on the credit report that the person has mentioned, we need them to send us the latest statement.",
+    note2: "If they prefer, we can push to semi-monthly payments instead",
+    options: [
+      { text: "Continue", next: "backEndSelection" }
+    ]
+  },
+  backEndSelection: {
+    id: "backEndSelection",
+    label: "Back-End Selection",
+    script: "If you're ready to move forward, I will be reading some explanations to you so you fully understand our program, and also needed for a quality check from our team that will be contacting you and the people you owe money to",
+    options: [
+      { text: "Elevate", next: "programExplanation" },
+      { text: "Clarity", next: "programExplanation" }
+    ]
+  },
+  programExplanation: {
+    id: "programExplanation",
+    label: "Program Explanation",
+    script: "I am going to start explaining, and please let me know if you have any questions. We offer a program called 'Debt Settlement' which is where we have a team that works for you, and speaks to the people you owe money to on your behalf.\n\nWe will provide you with all of the documents that inform the people you owe money to to not contact you anymore, and instead they will be contacting our team. If they ever do contact you, you will tell them to contact us instead and you do not need to provide them with any explanations.\n\nWe will be setting up a 'Trust' account for you, which is in your name, and instead of paying the people you owe money to, you will be putting the money in your Trust account. Aside from any fees, rest assured that this is all of your money.",
+    options: [
+      { text: "Continue", next: "budgetAnalysis" }
+    ]
+  },
+  budgetAnalysis: {
+    id: "budgetAnalysis",
+    label: "Budget Analysis",
+    script: "Our team develops a Settlement Plan with your creditors, and once your term is complete, the money is sent to your creditors and the account is closed, you will not owe them any additional money.\n\nDo you have any questions?\n\nPerfect, I also want you to understand that our teams have been doing this for years and have saved millions of dollars for Americans like you, and there is no other program like ours.\n\nWith our payment plan, we just need to review your budget plan to make sure you are comfortable with the payments, can we review this?",
+    options: [
+      { text: "Continue", next: "bankingInformation" }
+    ]
+  },
+  bankingInformation: {
+    id: "bankingInformation",
+    label: "Banking Information",
+    script: "Since the next step now is to stop paying your creditors, we are going to be setting up your trust account. You will also be getting an online account so you can see all of the activity with the money you will be putting towards these settlements. To start, we need to have your banking information.\n\nDo you know how to get your Routing and Account number? If not, I can help you find this.",
+    options: [
+      { text: "Yes", next: "bankingReady" },
+      { text: "No", next: "bankingHelp" }
+    ]
+  },
+  bankingReady: {
+    id: "bankingReady",
+    label: "Banking Ready",
+    script: "Ok let me know whenever you have this ready",
+    options: [
+      { text: "Continue", next: "scheduledFirstPayment" }
+    ]
+  },
+  bankingHelp: {
+    id: "bankingHelp",
+    label: "Banking Help",
+    script: "Ok, do you have the mobile app for your bank? Which bank is it?\n\n*we need to have instructions for all major banks* → ChatGPT",
+    options: [
+      { text: "Continue", next: "scheduledFirstPayment" }
+    ]
+  },
+  scheduledFirstPayment: {
+    id: "scheduledFirstPayment",
+    label: "Scheduled First Payment and Frequency",
+    script: "Ok great, now what I'll do for you here is I can push your first payment out for about a week so you have time to get your money in order. Does ________ work for you.",
+    note: "Reminder, should be min 7 days out, and max 30 days out unless otherwise noted",
+    options: [
+      { text: "Continue", next: "complianceQuestions" }
+    ]
+  },
+  complianceQuestions: {
+    id: "complianceQuestions",
+    label: "Compliance Questions Asked and Recorded",
+    script: "I'm so happy we could work together to save you thousands of dollars. Again this is more money that will be yours to spend on whatever you want or need.\n\nNow I have to do our compliance call. This just means that you I have to ask you some questions to make sure you fully understand our program and agree to work with us, but if you have any questions, you can ask. Sorry in advance, it might take a few minutes to finish all of these questions",
+    options: [
       { text: "Continue", next: "softCreditPull" }
+    ]
+  },
+  softCreditPull: {
+    id: "softCreditPull",
+    label: "Soft Credit Pull",
+    script: "We will now do a soft-credit pull as required by the program. This may or may not affect your credit score, but you can rest assured that going through the program will yield more benefits than any temporary impact. In fact, many of our clients see their credit improve over time as their debt decreases and accounts are settled.",
+    options: [
+      { text: "Continue", next: "checkDebt" }
+    ]
+  },
+  consumerShieldFlow: {
+    id: "consumerShieldFlow",
+    label: "Consumer Shield Program",
+    script: "Based on your debt amount, you may qualify for the Consumer Shield program. This program is designed for clients with $5,550 or more in enrolled debt, a minimum payment of $220/month, and a plan term of 24 months (under $8,800) or 36 months (over $8,800). All enrolled accounts must have a balance of at least $200. The initial payment must be within 18 days of enrollment. Would you like to proceed with the qualification process?",
+    options: [
+      { text: "Yes", next: "consumerShieldSoftCreditPull" },
+      { text: "No", next: "start" }
+    ]
+  },
+  consumerShieldSoftCreditPull: {
+    id: "consumerShieldSoftCreditPull",
+    label: "Consumer Shield Soft Credit Pull",
+    script: "Thanks for confirming, we will now do a soft-credit pull as required by the Consumer Shield program. This may or may not affect your credit score, but you can rest assured that going through the program will yield more benefits than any temporary impact. Would you like to continue?",
+    options: [
+      { text: "Continue", next: "consumerShieldCheckState" }
+    ]
+  },
+  consumerShieldCheckState: {
+    id: "consumerShieldCheckState",
+    label: "Consumer Shield State Check",
+    script: "Which state do you reside in? (Consumer Shield is not available in CO, PA, NJ, OR)",
+    options: [
+      { text: "Continue", next: "consumerShieldQualified" }
+    ]
+  },
+  consumerShieldQualified: {
+    id: "consumerShieldQualified",
+    label: "Consumer Shield Qualified",
+    script: "Great news! Based on what you've shared, you qualify for the Consumer Shield program. Let me explain how it works...",
+    options: [
+      { text: "Start Over", next: "start" }
+    ]
+  },
+  consumerShieldNotQualified: {
+    id: "consumerShieldNotQualified",
+    label: "Consumer Shield Not Qualified",
+    script: "I apologize, but based on the information provided, you do not qualify for the Consumer Shield program. Here are some alternative resources that might help...",
+    options: [
+      { text: "Start Over", next: "start" }
     ]
   },
   selectedFlow: {
@@ -271,55 +406,6 @@ const flow = {
       { text: "Yes", next: "softCreditPull" },
       { text: "No", next: "start" }
     ]
-  },
-  softCreditPull: {
-    id: "softCreditPull",
-    label: "Soft Credit Pull",
-    script: "We will now do a soft-credit pull as required by the program. This may or may not affect your credit score, but you can rest assured that going through the program will yield more benefits than any temporary impact. In fact, many of our clients see their credit improve over time as their debt decreases and accounts are settled.",
-    options: [
-      { text: "Continue", next: "checkDebt" }
-    ]
-  },
-  consumerShieldFlow: {
-    id: "consumerShieldFlow",
-    label: "Consumer Shield Program",
-    script: "Based on your debt amount, you may qualify for the Consumer Shield program. This program is designed for clients with $5,550 or more in enrolled debt, a minimum payment of $220/month, and a plan term of 24 months (under $8,800) or 36 months (over $8,800). All enrolled accounts must have a balance of at least $200. The initial payment must be within 18 days of enrollment. Would you like to proceed with the qualification process?",
-    options: [
-      { text: "Yes", next: "consumerShieldSoftCreditPull" },
-      { text: "No", next: "start" }
-    ]
-  },
-  consumerShieldSoftCreditPull: {
-    id: "consumerShieldSoftCreditPull",
-    label: "Consumer Shield Soft Credit Pull",
-    script: "Thanks for confirming, we will now do a soft-credit pull as required by the Consumer Shield program. This may or may not affect your credit score, but you can rest assured that going through the program will yield more benefits than any temporary impact. Would you like to continue?",
-    options: [
-      { text: "Continue", next: "consumerShieldCheckState" }
-    ]
-  },
-  consumerShieldCheckState: {
-    id: "consumerShieldCheckState",
-    label: "Consumer Shield State Check",
-    script: "Which state do you reside in? (Consumer Shield is not available in CO, PA, NJ, OR)",
-    options: [
-      { text: "Continue", next: "consumerShieldQualified" }
-    ]
-  },
-  consumerShieldQualified: {
-    id: "consumerShieldQualified",
-    label: "Consumer Shield Qualified",
-    script: "Great news! Based on what you've shared, you qualify for the Consumer Shield program. Let me explain how it works...",
-    options: [
-      { text: "Start Over", next: "start" }
-    ]
-  },
-  consumerShieldNotQualified: {
-    id: "consumerShieldNotQualified",
-    label: "Consumer Shield Not Qualified",
-    script: "I apologize, but based on the information provided, you do not qualify for the Consumer Shield program. Here are some alternative resources that might help...",
-    options: [
-      { text: "Start Over", next: "start" }
-    ]
   }
 };
 
@@ -378,7 +464,7 @@ const translatedFlow = {
     label: "Confirmación de Dirección",
     script: "Primero vamos a comenzar con su dirección de casa, ¿podría deletrearme su dirección? Por favor, también indíqueme si tiene un número de suite o apartamento.\n\nExcelente, también tengo su número de teléfono como (repetir número de teléfono desde el que están llamando), ¿es este el mejor número para contactarle?\n\n¿Y podría proporcionarme una dirección de correo electrónico también?",
     options: [
-      { text: "Continuar", next: "employmentConfirmation" }
+      { text: "Continue", next: "employmentConfirmation" }
     ]
   },
   employmentConfirmation: {
@@ -402,12 +488,147 @@ const translatedFlow = {
     label: "Información de Dificultad",
     script: "¡Ok, muchas gracias! Todo se ve bien aquí, voy a confirmar todos estos números que revisamos y luego podré decirte exactamente cuántos miles de dólares estarás ahorrando.\n\nMientras hago esto, nuestros equipos que trabajan con sus deudas preguntarán por qué no quiere pagar el monto completo, o por qué no puede pagar el monto completo. Esto puede ser porque no está ganando lo suficiente en su trabajo, tal vez tuvo algunos gastos médicos, incluso los gastos del automóvil o del hogar pueden ser una razón. ¿Podría decirme qué debo poner aquí como explicación?",
     options: [
+      { text: "Continue", next: "accountConfirmation" }
+    ]
+  },
+  accountConfirmation: {
+    id: "accountConfirmation",
+    label: "Confirmación de Cuenta",
+    script: "Ok, ya tenemos toda la información que necesitamos, permítame confirmar estas cuentas contigo una vez más.",
+    note: "Revise cada línea uno por uno y asegúrese de que sean válidas para nuestros programas. Consulte la GUÍA MAESTRA",
+    options: [
+      { text: "Continue", next: "paymentSummary" }
+    ]
+  },
+  paymentSummary: {
+    id: "paymentSummary",
+    label: "Resumen de Pago",
+    script: "Entonces, parece que para sus facturas, actualmente está pagando $XXX.XX por todas estas deudas cada mes, y podemos bajar esto a $YYY.YY. Eso no es todo, también vamos a asegurarnos de que en lugar de Z años de hacer sus pagos, se pagarán estas deudas en solo XX meses (o X años).\n\nEstás ahorrando miles de dólares en total, y pronto estarás libre de deudas - ¿qué te parece eso?",
+    note1: "Si hay elementos no informados en el informe de crédito que la persona ha mencionado, necesitamos que nos envíen el último estado.",
+    note2: "Si prefieren, podemos pasar a pagos semimestrales en su lugar",
+    options: [
+      { text: "Continue", next: "backEndSelection" }
+    ]
+  },
+  backEndSelection: {
+    id: "backEndSelection",
+    label: "Selección Final",
+    script: "Si está listo para avanzar, leeremos algunas explicaciones para usted para que entienda completamente nuestro programa, y también es necesario para una revisión de calidad de nuestro equipo que se comunicará con usted y con las personas a las que le debe dinero",
+    options: [
+      { text: "Elevate", next: "programExplanation" },
+      { text: "Clarity", next: "programExplanation" }
+    ]
+  },
+  programExplanation: {
+    id: "programExplanation",
+    label: "Explicación del Programa",
+    script: "Voy a comenzar a explicar, y por favor hágamelo saber si tiene alguna pregunta. Ofrecemos un programa llamado 'Liquidación de Deuda', en el que tenemos un equipo que trabaja para usted y habla con las personas a las que les debe dinero en su nombre.\n\nLe proporcionaremos todos los documentos que informan a las personas a las que les debe dinero que no lo contacten más, y en su lugar se comunicarán con nuestro equipo. Si alguna vez lo contactan, les dirá que se comuniquen con nosotros y no necesita darles ninguna explicación.\n\nLe configuraremos una cuenta fiduciaria ('Trust') a su nombre, y en lugar de pagar a las personas a las que les debe dinero, pondrá el dinero en su cuenta fiduciaria. Aparte de cualquier tarifa, tenga la seguridad de que todo ese dinero es suyo.",
+    options: [
+      { text: "Continue", next: "budgetAnalysis" }
+    ]
+  },
+  budgetAnalysis: {
+    id: "budgetAnalysis",
+    label: "Análisis de Presupuesto",
+    script: "Nuestro equipo desarrolla un Plan de Liquidación con sus acreedores, y una vez que su plazo se complete, el dinero se envía a sus acreedores y la cuenta se cierra, no deberá dinero adicional a ellos.\n\n¿Tiene alguna pregunta?\n\nPerfecto, también quiero que entienda que nuestros equipos han estado haciendo esto durante años y han ahorrado millones de dólares a estadounidenses como usted, y no hay otro programa como el nuestro.\n\nCon nuestro plan de pagos, solo necesitamos revisar su plan de presupuesto para asegurarnos de que esté cómodo con los pagos, ¿podemos revisar esto?",
+    options: [
+      { text: "Continue", next: "bankingInformation" }
+    ]
+  },
+  bankingInformation: {
+    id: "bankingInformation",
+    label: "Información Bancaria",
+    script: "Dado que el siguiente paso ahora es dejar de pagar a sus acreedores, vamos a estar configurando su cuenta fiduciaria. También estará obteniendo una cuenta en línea para que pueda ver toda la actividad con el dinero que estará destinado a estos acuerdos. Para empezar, necesitamos tener su información bancaria.\n\n¿Conoce cómo obtener su número de ruta y número de cuenta? Si no, puedo ayudarlo a encontrar esto.",
+    options: [
+      { text: "Yes", next: "bankingReady" },
+      { text: "No", next: "bankingHelp" }
+    ]
+  },
+  bankingReady: {
+    id: "bankingReady",
+    label: "Listo para Bancar",
+    script: "Ok, déjame saber cada vez que esté listo",
+    options: [
+      { text: "Continue", next: "scheduledFirstPayment" }
+    ]
+  },
+  bankingHelp: {
+    id: "bankingHelp",
+    label: "Ayuda Bancaria",
+    script: "Ok, ¿tiene la aplicación móvil de su banco? ¿De qué banco se trata?\n\n*necesitamos instrucciones para todos los principales bancos* → ChatGPT",
+    options: [
+      { text: "Continue", next: "scheduledFirstPayment" }
+    ]
+  },
+  scheduledFirstPayment: {
+    id: "scheduledFirstPayment",
+    label: "Scheduled First Payment and Frequency",
+    script: "Ok great, now what I'll do for you here is I can push your first payment out for about a week so you have time to get your money in order. Does ________ work for you.",
+    note: "Reminder, should be min 7 days out, and max 30 days out unless otherwise noted",
+    options: [
+      { text: "Continue", next: "complianceQuestions" }
+    ]
+  },
+  complianceQuestions: {
+    id: "complianceQuestions",
+    label: "Compliance Questions Asked and Recorded",
+    script: "I'm so happy we could work together to save you thousands of dollars. Again this is more money that will be yours to spend on whatever you want or need.\n\nNow I have to do our compliance call. This just means that you I have to ask you some questions to make sure you fully understand our program and agree to work with us, but if you have any questions, you can ask. Sorry in advance, it might take a few minutes to finish all of these questions",
+    options: [
       { text: "Continue", next: "softCreditPull" }
+    ]
+  },
+  softCreditPull: {
+    id: "softCreditPull",
+    label: "Soft Credit Pull",
+    script: "We will now do a soft-credit pull as required by the program. This may or may not affect your credit score, but you can rest assured that going through the program will yield more benefits than any temporary impact. In fact, many of our clients see their credit improve over time as their debt decreases and accounts are settled.",
+    options: [
+      { text: "Continue", next: "checkDebt" }
+    ]
+  },
+  consumerShieldFlow: {
+    id: "consumerShieldFlow",
+    label: "Programa de Protección al Consumidor",
+    script: "Basado en su monto de deuda, podría calificar para el Programa de Protección al Consumidor. Este programa está diseñado para clientes con $5,550 o más en deudas adeudadas, un pago mínimo de $220/mes, y un término de plan de 24 meses (menos de $8,800) o 36 meses (más de $8,800). Todas las cuentas adeudadas deben tener un saldo de al menos $200. El pago inicial debe realizarse dentro de los 18 días de inscripción. ¿Le gustaría proceder con el proceso de calificación?",
+    options: [
+      { text: "Yes", next: "consumerShieldSoftCreditPull" },
+      { text: "No", next: "start" }
+    ]
+  },
+  consumerShieldSoftCreditPull: {
+    id: "consumerShieldSoftCreditPull",
+    label: "Pull de Crédito Suave para Protección al Consumidor",
+    script: "Gracias por confirmar, ahora haremos un pull de crédito suave como se requiere por el Programa de Protección al Consumidor. Esto puede o no afectar su puntaje de crédito, pero puede estar tranquilo de que seguir este programa le dará más beneficios que cualquier impacto temporal. ¿Le gustaría continuar?",
+    options: [
+      { text: "Continuar", next: "consumerShieldCheckState" }
+    ]
+  },
+  consumerShieldCheckState: {
+    id: "consumerShieldCheckState",
+    label: "Revisión de Estado para Protección al Consumidor",
+    script: "¿En qué estado reside? (El Programa de Protección al Consumidor no está disponible en CO, PA, NJ, OR)",
+    options: [
+      { text: "Continuar", next: "consumerShieldQualified" }
+    ]
+  },
+  consumerShieldQualified: {
+    id: "consumerShieldQualified",
+    label: "Calificado para Protección al Consumidor",
+    script: "¡Buenas noticias! Según lo que ha compartido, califica para el Programa de Protección al Consumidor. Permítame explicarte cómo funciona...",
+    options: [
+      { text: "Start Over", next: "start" }
+    ]
+  },
+  consumerShieldNotQualified: {
+    id: "consumerShieldNotQualified",
+    label: "No Calificado para Protección al Consumidor",
+    script: "I apologize, but based on the information provided, you do not qualify for the Consumer Shield program. Here are some alternative resources that might help...",
+    options: [
+      { text: "Start Over", next: "start" }
     ]
   },
   selectedFlow: {
     id: "selectedFlow",
-    label: "Selected Flow",
+    label: "Flujo Seleccionado",
     script: (state) => {
       const vendor = stateVendorMap[state];
       if (vendor === 'Elevate_FSP') {
@@ -426,7 +647,7 @@ const translatedFlow = {
     label: "Cuenta Corriente",
     script: "¿Tiene una cuenta corriente a su nombre?",
     options: [
-      { text: "Sí", next: "qualified" },
+      { text: "Yes", next: "qualified" },
       { text: "No", next: "notQualified" }
     ]
   },
@@ -507,55 +728,6 @@ const translatedFlow = {
     options: [
       { text: "Yes", next: "softCreditPull" },
       { text: "No", next: "start" }
-    ]
-  },
-  softCreditPull: {
-    id: "softCreditPull",
-    label: "Soft Credit Pull",
-    script: "We will now do a soft-credit pull as required by the program. This may or may not affect your credit score, but you can rest assured that going through the program will yield more benefits than any temporary impact. In fact, many of our clients see their credit improve over time as their debt decreases and accounts are settled.",
-    options: [
-      { text: "Continue", next: "checkDebt" }
-    ]
-  },
-  consumerShieldFlow: {
-    id: "consumerShieldFlow",
-    label: "Programa de Protección al Consumidor",
-    script: "Basado en su monto de deuda, podría calificar para el Programa de Protección al Consumidor. Este programa está diseñado para clientes con $5,550 o más en deudas adeudadas, un pago mínimo de $220/mes, y un término de plan de 24 meses (menos de $8,800) o 36 meses (más de $8,800). Todas las cuentas adeudadas deben tener un saldo de al menos $200. El pago inicial debe realizarse dentro de los 18 días de inscripción. ¿Le gustaría proceder con el proceso de calificación?",
-    options: [
-      { text: "Sí", next: "consumerShieldSoftCreditPull" },
-      { text: "No", next: "start" }
-    ]
-  },
-  consumerShieldSoftCreditPull: {
-    id: "consumerShieldSoftCreditPull",
-    label: "Pull de Crédito Suave para Protección al Consumidor",
-    script: "Gracias por confirmar, ahora haremos un pull de crédito suave como se requiere por el Programa de Protección al Consumidor. Esto puede o no afectar su puntaje de crédito, pero puede estar tranquilo de que seguir este programa le dará más beneficios que cualquier impacto temporal. ¿Le gustaría continuar?",
-    options: [
-      { text: "Continuar", next: "consumerShieldCheckState" }
-    ]
-  },
-  consumerShieldCheckState: {
-    id: "consumerShieldCheckState",
-    label: "Revisión de Estado para Protección al Consumidor",
-    script: "¿En qué estado reside? (El Programa de Protección al Consumidor no está disponible en CO, PA, NJ, OR)",
-    options: [
-      { text: "Continuar", next: "consumerShieldQualified" }
-    ]
-  },
-  consumerShieldQualified: {
-    id: "consumerShieldQualified",
-    label: "Calificado para Protección al Consumidor",
-    script: "¡Buenas noticias! Según lo que ha compartido, califica para el Programa de Protección al Consumidor. Permítame explicarte cómo funciona...",
-    options: [
-      { text: "Comenzar de Nuevo", next: "start" }
-    ]
-  },
-  consumerShieldNotQualified: {
-    id: "consumerShieldNotQualified",
-    label: "No Calificado para Protección al Consumidor",
-    script: "Lo siento, pero según la información proporcionada, no calificas para el Programa de Protección al Consumidor. Aquí hay algunos recursos alternativos que podrían ayudar...",
-    options: [
-      { text: "Comenzar de Nuevo", next: "start" }
     ]
   }
 };
@@ -898,6 +1070,17 @@ function App() {
       } else {
         setStep(currentFlow.consumerShieldFlow);
       }
+    } else if (currentStep.id === "backEndSelection") {
+      // Add logging for back-end selection
+      const backEndNote = `Back-end selected: ${option.text}`;
+      setNotes(prev => prev ? `${prev}\n${backEndNote}` : backEndNote);
+      addToLog(backEndNote);
+      
+      setStep(prev => {
+        const nextStep = currentFlow[option.next];
+        addToLog(`Moved from "${prev.label}" to "${nextStep.label}"`);
+        return nextStep;
+      });
     } else {
       setStep(prev => {
         const nextStep = currentFlow[option.next];
@@ -905,7 +1088,7 @@ function App() {
         return nextStep;
       });
     }
-  }, [currentStep, currentFlow, addToLog]);
+  }, [currentStep, currentFlow, addToLog, setNotes]);
 
   const handleStateSelection = useCallback((state) => {
     setSelectedState(state);
@@ -1225,6 +1408,41 @@ function App() {
                 </div>
               )}
 
+              {currentStep.id === "accountConfirmation" && currentStep.note && (
+                <div className="mb-4 p-3 bg-yellow-100 border border-yellow-400 rounded-lg">
+                  <p className="text-yellow-800 font-medium">
+                    <strong>Note:</strong> {currentStep.note}
+                  </p>
+                </div>
+              )}
+
+              {currentStep.id === "scheduledFirstPayment" && currentStep.note && (
+                <div className="mb-4 p-3 bg-yellow-100 border border-yellow-400 rounded-lg">
+                  <p className="text-yellow-800 font-medium">
+                    <strong>Note:</strong> {currentStep.note}
+                  </p>
+                </div>
+              )}
+
+              {currentStep.id === "paymentSummary" && (
+                <>
+                  {currentStep.note1 && (
+                    <div className="mb-4 p-3 bg-yellow-100 border border-yellow-400 rounded-lg">
+                      <p className="text-yellow-800 font-medium">
+                        <strong>Note 1:</strong> {currentStep.note1}
+                      </p>
+                    </div>
+                  )}
+                  {currentStep.note2 && (
+                    <div className="mb-4 p-3 bg-yellow-100 border border-yellow-400 rounded-lg">
+                      <p className="text-yellow-800 font-medium">
+                        <strong>Note 2:</strong> {currentStep.note2}
+                      </p>
+                    </div>
+                  )}
+                </>
+              )}
+
               {currentStep.id === "checkDebt" && (
                 <div className="mb-6 space-y-4">
                   <div className="grid gap-4">
@@ -1438,7 +1656,12 @@ function App() {
                           (currentStep.id === "addressConfirmation" && (option.text === "Continue" || option.text === "Continuar") && !checklist["2"]) ||
                           (currentStep.id === "employmentConfirmation" && (option.text === "Continue" || option.text === "Continuar") && !checklist["3"]) ||
                           (currentStep.id === "ssnConfirmation" && (option.text === "Continue" || option.text === "Continuar") && !checklist["4"]) ||
-                          (currentStep.id === "hardshipInformation" && (option.text === "Continue" || option.text === "Continuar") && !checklist["5"])
+                          (currentStep.id === "hardshipInformation" && (option.text === "Continue" || option.text === "Continuar") && !checklist["5"]) ||
+                          (currentStep.id === "accountConfirmation" && (option.text === "Continue" || option.text === "Continuar") && !checklist["6"]) ||
+                          (currentStep.id === "backEndSelection" && !checklist["7"]) ||
+                          (currentStep.id === "budgetAnalysis" && (option.text === "Continue" || option.text === "Continuar") && !checklist["8"]) ||
+                          (currentStep.id === "bankingInformation" && !checklist["9"]) ||
+                          (currentStep.id === "scheduledFirstPayment" && (option.text === "Continue" || option.text === "Continuar") && !checklist["10"])
                         }
                         className={`bg-blue-600 text-white py-1 px-3 text-sm rounded hover:bg-blue-700 text-left ${
                           (currentStep.id === "checkState" && option.text === "Continue" && !selectedState) ||
@@ -1447,7 +1670,12 @@ function App() {
                           (currentStep.id === "addressConfirmation" && (option.text === "Continue" || option.text === "Continuar") && !checklist["2"]) ||
                           (currentStep.id === "employmentConfirmation" && (option.text === "Continue" || option.text === "Continuar") && !checklist["3"]) ||
                           (currentStep.id === "ssnConfirmation" && (option.text === "Continue" || option.text === "Continuar") && !checklist["4"]) ||
-                          (currentStep.id === "hardshipInformation" && (option.text === "Continue" || option.text === "Continuar") && !checklist["5"])
+                          (currentStep.id === "hardshipInformation" && (option.text === "Continue" || option.text === "Continuar") && !checklist["5"]) ||
+                          (currentStep.id === "accountConfirmation" && (option.text === "Continue" || option.text === "Continuar") && !checklist["6"]) ||
+                          (currentStep.id === "backEndSelection" && !checklist["7"]) ||
+                          (currentStep.id === "budgetAnalysis" && (option.text === "Continue" || option.text === "Continuar") && !checklist["8"]) ||
+                          (currentStep.id === "bankingInformation" && !checklist["9"]) ||
+                          (currentStep.id === "scheduledFirstPayment" && (option.text === "Continue" || option.text === "Continuar") && !checklist["10"])
                             ? 'opacity-50 cursor-not-allowed'
                             : ''
                         }`}
@@ -1606,11 +1834,11 @@ function App() {
                       {itemNumber === "3" && "Employment Information"}
                       {itemNumber === "4" && "Social Security Number"}
                       {itemNumber === "5" && "Hardship Information"}
-                      {itemNumber === "6" && `Item ${itemNumber}`}
-                      {itemNumber === "7" && `Item ${itemNumber}`}
-                      {itemNumber === "8" && `Item ${itemNumber}`}
-                      {itemNumber === "9" && `Item ${itemNumber}`}
-                      {itemNumber === "10" && `Item ${itemNumber}`}
+                      {itemNumber === "6" && "Only Enrolled debts are selected"}
+                      {itemNumber === "7" && "Back-end Chosen"}
+                      {itemNumber === "8" && "Budget Analysis"}
+                      {itemNumber === "9" && "Banking Information"}
+                      {itemNumber === "10" && "Scheduled First Payment"}
                     </label>
                   </div>
                 ))}
