@@ -98,7 +98,7 @@ const flow = {
     label: "Qualification",
     script: "You've come to the right place. We can help reduce all of your debts, save you thousands of dollars, and even pay them off sooner than you thought. This allows you to have more money in your pockets for the things you really need, instead of paying interest and fees on these debts! Before we get started, can I please get your Name and the State you are calling from?",
     options: [
-      { text: "Yes", next: "checkState" },
+      { text: "Yes", next: "employmentCheck" },
       { text: "No", next: "start" }
     ]
   },
@@ -139,7 +139,7 @@ const flow = {
   addressConfirmation: {
     id: "addressConfirmation",
     label: "Address Confirmation",
-    script: "First we're going to start with your home address, can you please spell out your address for me? Please also let me know if you have a suite or apartment number.",
+    script: "First we're going to start with your home address, can you please spell out your address for me? Please also let me know if you have a suite or apartment number.\n\nGreat, now I also have your phone number as (repeat phone number they are calling from), is this the best number to reach you at?\n\nAnd can I please get an email address as well?",
     options: [
       { text: "Continue", next: "employmentConfirmation" }
     ]
@@ -376,9 +376,9 @@ const translatedFlow = {
   addressConfirmation: {
     id: "addressConfirmation",
     label: "Confirmación de Dirección",
-    script: "Primero vamos a comenzar con su dirección de casa, ¿podría deletrearme su dirección? Por favor, también indíqueme si tiene un número de suite o apartamento.",
+    script: "Primero vamos a comenzar con su dirección de casa, ¿podría deletrearme su dirección? Por favor, también indíqueme si tiene un número de suite o apartamento.\n\nExcelente, también tengo su número de teléfono como (repetir número de teléfono desde el que están llamando), ¿es este el mejor número para contactarle?\n\n¿Y podría proporcionarme una dirección de correo electrónico también?",
     options: [
-      { text: "Continue", next: "employmentConfirmation" }
+      { text: "Continuar", next: "employmentConfirmation" }
     ]
   },
   employmentConfirmation: {
@@ -386,7 +386,7 @@ const translatedFlow = {
     label: "Confirmación de Empleo",
     script: "Ahora vamos a revisar su empleo. Dijo que actualmente está trabajando, ¿podría decirme el nombre de la empresa para la que trabaja?\n\nGracias, y ¿cuál es su cargo allí y cuánto tiempo ha trabajado allí?\n\n¡Perfecto! ¿Tiene su dirección de memoria? Si no, puedo encontrarla en internet, ¡no se preocupe!",
     options: [
-      { text: "Continuar", next: "ssnConfirmation" }
+      { text: "Continue", next: "ssnConfirmation" }
     ]
   },
   ssnConfirmation: {
@@ -394,7 +394,7 @@ const translatedFlow = {
     label: "Confirmación de SSN",
     script: "Ahora el paso final antes de proceder y confirmar todo con los acreedores, ¿podría proporcionarme su número de seguro social?",
     options: [
-      { text: "Continuar", next: "hardshipInformation" }
+      { text: "Continue", next: "hardshipInformation" }
     ]
   },
   hardshipInformation: {
@@ -402,7 +402,7 @@ const translatedFlow = {
     label: "Información de Dificultad",
     script: "¡Ok, muchas gracias! Todo se ve bien aquí, voy a confirmar todos estos números que revisamos y luego podré decirte exactamente cuántos miles de dólares estarás ahorrando.\n\nMientras hago esto, nuestros equipos que trabajan con sus deudas preguntarán por qué no quiere pagar el monto completo, o por qué no puede pagar el monto completo. Esto puede ser porque no está ganando lo suficiente en su trabajo, tal vez tuvo algunos gastos médicos, incluso los gastos del automóvil o del hogar pueden ser una razón. ¿Podría decirme qué debo poner aquí como explicación?",
     options: [
-      { text: "Continuar", next: "softCreditPull" }
+      { text: "Continue", next: "softCreditPull" }
     ]
   },
   selectedFlow: {
@@ -1217,6 +1217,14 @@ function App() {
                 dangerouslySetInnerHTML={{ __html: currentStep.script }}
               />
 
+              {currentStep.id === "addressConfirmation" && (
+                <div className="mb-4 p-3 bg-yellow-100 border border-yellow-400 rounded-lg">
+                  <p className="text-yellow-800 font-medium">
+                    <strong>Note:</strong> If no email address, input "noemail@gmail.com"
+                  </p>
+                </div>
+              )}
+
               {currentStep.id === "checkDebt" && (
                 <div className="mb-6 space-y-4">
                   <div className="grid gap-4">
@@ -1332,7 +1340,56 @@ function App() {
                       </h3>
                       <select
                         value={selectedState}
-                        onChange={(e) => handleStateSelection(e.target.value)}
+                        onChange={(e) => {
+                          const state = e.target.value;
+                          handleStateSelection(state);
+                          if (state) {
+                            const stateName = language === "es" ? translatedStates[state] : state;
+                            const note = `State selected: ${stateName} (${state})`;
+                            setNotes(prev => prev ? `${prev}\n${note}` : note);
+                            addToLog(note);
+                          }
+                        }}
+                        className="w-full p-2 border rounded-md shadow-sm mb-4"
+                      >
+                        <option value="">
+                          {language === "es" ? "-- Seleccione un estado --" : "-- Select a state --"}
+                        </option>
+                        {states.map((state) => (
+                          <option key={state} value={state}>
+                            {language === "es" ? translatedStates[state] : state}
+                          </option>
+                        ))}
+                      </select>
+                      {selectedState && stateNotes[selectedState] && (
+                        <p className="mt-2 text-sm text-gray-600 italic">
+                          Note: {stateNotes[selectedState]}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {currentStep.id === "qualify" && (
+                <div className="mb-6 space-y-4">
+                  <div className="grid gap-4">
+                    <div className="p-4 border rounded-lg bg-gray-50">
+                      <h3 className="font-semibold mb-4">
+                        {language === "es" ? "Seleccione su Estado" : "Select your State"}
+                      </h3>
+                      <select
+                        value={selectedState}
+                        onChange={(e) => {
+                          const state = e.target.value;
+                          handleStateSelection(state);
+                          if (state) {
+                            const stateName = language === "es" ? translatedStates[state] : state;
+                            const note = `State selected: ${stateName} (${state})`;
+                            setNotes(prev => prev ? `${prev}\n${note}` : note);
+                            addToLog(note);
+                          }
+                        }}
                         className="w-full p-2 border rounded-md shadow-sm mb-4"
                       >
                         <option value="">
@@ -1374,9 +1431,23 @@ function App() {
                             handleStepChange(option);
                           }
                         }}
-                        disabled={currentStep.id === "checkState" && option.text === "Continue" && !selectedState}
+                        disabled={
+                          (currentStep.id === "checkState" && option.text === "Continue" && !selectedState) ||
+                          (currentStep.id === "qualify" && option.text === "Yes" && !checklist["1"]) ||
+                          (currentStep.id === "checkDebt" && option.text === "≥ $10,000" && totalDebt < 10000) ||
+                          (currentStep.id === "addressConfirmation" && (option.text === "Continue" || option.text === "Continuar") && !checklist["2"]) ||
+                          (currentStep.id === "employmentConfirmation" && (option.text === "Continue" || option.text === "Continuar") && !checklist["3"]) ||
+                          (currentStep.id === "ssnConfirmation" && (option.text === "Continue" || option.text === "Continuar") && !checklist["4"]) ||
+                          (currentStep.id === "hardshipInformation" && (option.text === "Continue" || option.text === "Continuar") && !checklist["5"])
+                        }
                         className={`bg-blue-600 text-white py-1 px-3 text-sm rounded hover:bg-blue-700 text-left ${
-                          currentStep.id === "checkState" && option.text === "Continue" && !selectedState
+                          (currentStep.id === "checkState" && option.text === "Continue" && !selectedState) ||
+                          (currentStep.id === "qualify" && option.text === "Yes" && !checklist["1"]) ||
+                          (currentStep.id === "checkDebt" && option.text === "≥ $10,000" && totalDebt < 10000) ||
+                          (currentStep.id === "addressConfirmation" && (option.text === "Continue" || option.text === "Continuar") && !checklist["2"]) ||
+                          (currentStep.id === "employmentConfirmation" && (option.text === "Continue" || option.text === "Continuar") && !checklist["3"]) ||
+                          (currentStep.id === "ssnConfirmation" && (option.text === "Continue" || option.text === "Continuar") && !checklist["4"]) ||
+                          (currentStep.id === "hardshipInformation" && (option.text === "Continue" || option.text === "Continuar") && !checklist["5"])
                             ? 'opacity-50 cursor-not-allowed'
                             : ''
                         }`}
@@ -1492,6 +1563,12 @@ function App() {
             >
               {language === "es" ? "Guardar Notas" : "Save Notes"}
             </button>
+            <button
+              onClick={() => setNotes("")}
+              className="bg-red-600 text-white py-1 px-3 rounded hover:bg-red-700 text-sm mb-4 ml-2"
+            >
+              {language === "es" ? "Limpiar" : "Clear"}
+            </button>
 
             {/* Call Completion Checklist */}
             <div className="mt-4 border-t pt-4">
@@ -1524,12 +1601,12 @@ function App() {
                       className="h-4 w-4 text-blue-600 rounded border-gray-300"
                     />
                     <label className="ml-2 text-sm">
-                      {itemNumber === "1" && "Input Contact Name and State in Forth → If Oregon, Consumer Shield Flow"}
+                      {itemNumber === "1" && "Input Contact Name, State and Language"}
                       {itemNumber === "2" && "Address Information"}
                       {itemNumber === "3" && "Employment Information"}
                       {itemNumber === "4" && "Social Security Number"}
-                      {itemNumber === "5" && "Additional Information (Language)"}
-                      {itemNumber === "6" && "Hardship Information"}
+                      {itemNumber === "5" && "Hardship Information"}
+                      {itemNumber === "6" && `Item ${itemNumber}`}
                       {itemNumber === "7" && `Item ${itemNumber}`}
                       {itemNumber === "8" && `Item ${itemNumber}`}
                       {itemNumber === "9" && `Item ${itemNumber}`}
