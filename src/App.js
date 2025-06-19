@@ -98,22 +98,13 @@ const flow = {
     label: "Qualification",
     script: "You've come to the right place. We can help reduce all of your debts, save you thousands of dollars, and even pay them off sooner than you thought. This allows you to have more money in your pockets for the things you really need, instead of paying interest and fees on these debts! Before we get started, can I please get your Name and the State you are calling from?",
     options: [
-      { text: "Yes", next: "employmentCheck" },
-      { text: "No", next: "start" }
-    ]
-  },
-  checkState: {
-    id: "checkState",
-    label: "Check State",
-    script: "Which state do you reside in?",
-    options: [
       { text: "Continue", next: "employmentCheck" }
     ]
   },
   employmentCheck: {
     id: "employmentCheck",
     label: "Employment Check",
-    script: "To make sure we are getting you the highest debt removal program, we need to some information before moving forward, can you please confirm that you are currently employed or receiving any income?",
+    script: "Are you currently employed or do you have a stable source of income? This is important because we need to make sure you can make the monthly payments for the program.",
     options: [
       { text: "Yes", next: "checkDebt" },
       { text: "No", next: "notQualified" }
@@ -438,15 +429,6 @@ const translatedFlow = {
     label: "Calificación",
     script: "Ha llegado al lugar correcto. ¿Puedo hacerle algunas preguntas rápidas para verificar si califica?",
     options: [
-      { text: "Sí", next: "checkState" },
-      { text: "No", next: "start" }
-    ]
-  },
-  checkState: {
-    id: "checkState",
-    label: "Verificar Estado",
-    script: "¿En qué estado reside?",
-    options: [
       { text: "Continuar", next: "employmentCheck" }
     ]
   },
@@ -455,7 +437,7 @@ const translatedFlow = {
     label: "Verificación de Empleo",
     script: "¿Está empleado actualmente o tiene una fuente estable de ingresos? Esto es importante ya que necesitamos asegurarnos de que pueda hacer los pagos mensuales para el programa.",
     options: [
-      { text: "Sí", next: "checkDebt" },
+      { text: "Yes", next: "checkDebt" },
       { text: "No", next: "notQualified" }
     ]
   },
@@ -524,7 +506,7 @@ const translatedFlow = {
     note1: "Si hay elementos no informados en el informe de crédito que la persona ha mencionado, necesitamos que nos envíen el último estado.",
     note2: "Si prefieren, podemos pasar a pagos semimestrales en su lugar",
     options: [
-      { text: "Continue", next: "backEndSelection" }
+      { text: "Continuar", next: "backEndSelection" }
     ]
   },
   backEndSelection: {
@@ -604,9 +586,9 @@ const translatedFlow = {
   },
   contractSignedByClient: {
     id: "contractSignedByClient",
-    label: "Contract signed by client",
-    script: "Ok I just received the note that you signed this, thank you!\n\nIf I were you, I would save this number in your phone so you know when they call in case you miss it, you can call them back. The phone number is 561-763-8380, and they are open 6AM to 3PM Pacific Time",
-    note: "If Elevate: So what's going to happen now is our managing team is going to give you a call within 24 hours just to introduce themselves and say Hi, and you can ask them any questions you might have. They are also going to give you the details on how to see all of your payments online if you want to.",
+    label: "Contrato Firmado por el Cliente",
+    script: "Ok, acabo de recibir la nota de que firmó esto, ¡gracias!\n\nSi fuera usted, guardaría este número en su teléfono para que sepa cuándo llaman en caso de que se lo pierda, puede devolverles la llamada. El número de teléfono es 561-763-8380, y están abiertos de 6AM a 3PM hora del Pacífico",
+    note: "Si Elevate: Entonces lo que va a pasar ahora es que nuestro equipo de gestión le dará una llamada dentro de las 24 horas solo para presentarse y decir Hola, y puede hacerles cualquier pregunta que pueda tener. También le darán los detalles sobre cómo ver todos sus pagos en línea si quiere.",
     options: [
       { text: "Continue", next: "softCreditPull" }
     ]
@@ -673,7 +655,7 @@ const translatedFlow = {
       return "Continuando con su programa seleccionado...";
     },
     options: [
-      { text: "Continuar", next: "checkingAccount" }
+      { text: "Continue", next: "checkingAccount" }
     ]
   },
   checkingAccount: {
@@ -972,6 +954,170 @@ const unsupportedStates = ['MN', 'OR'];
 
 // Add Consumer Shield unsupported states
 const consumerShieldUnsupportedStates = ["CO", "PA", "NJ", "OR"];
+
+// Add Spanish translations for UI elements
+const uiTranslations = {
+  en: {
+    addDebt: "Add Debt",
+    checkDebt: "Check Debt",
+    continue: "Continue",
+    back: "← Back",
+    home: "🏠 Home",
+    copy: "Copy",
+    clear: "Clear",
+    saveNotes: "Save Notes",
+    clean: "Clear",
+    debtBreakdown: "Debt Breakdown",
+    debtType: "Debt Type",
+    amount: "Amount",
+    selectOption: "-- Select an option --",
+    selectState: "-- Select a state --",
+    totalDebt: "Total Debt:",
+    selectYourState: "Select your State",
+    callLog: "Call Log",
+    noLogEntries: "No log entries",
+    agentNotes: "Agent Notes",
+    enterNotesHere: "Enter notes here...",
+    agentChecklist: "Agent Checklist",
+    completion: "Completion:",
+    ineligibleDebtType: "Ineligible Debt Type",
+    checkOtherDebt: "Check Other Debt",
+    startOver: "Start Over",
+    selectedObjection: "Selected Objection",
+    close: "Close",
+    incompleteChecklist: "Incomplete Checklist",
+    exitAnyway: "Exit Anyway",
+    continueWorking: "Continue Working",
+    loanReferral: "Loan Referral",
+    debtConsolidation: "Debt Consolidation",
+    creditRepair: "Credit Repair",
+    thisDebtTypeNotEligible: "This debt type is not eligible",
+    selectFlow: "Select a Flow",
+    cancel: "Cancel",
+    qualificationCriteria: "Qualification Criteria",
+    debtRequirements: "Debt Requirements",
+    monthlyPaymentMinimums: "Monthly Payment Minimums by Debt Load",
+    programDurationLimits: "Program Duration Limits",
+    clientPaymentRequirements: "Client Payment Requirements",
+    documentationRequirements: "Documentation Requirements",
+    specificAcceptableCreditors: "Specific Acceptable Creditors",
+    disqualifiersUnacceptableDebt: "❌ Disqualifiers / Unacceptable Debt",
+    warning: "Warning",
+    success: "Success",
+    debtTotalCheckCleared: "Debt Total Check Cleared",
+    proceed: "Proceed",
+    debtNotQualified: "Debt Not Qualified",
+    debtBelowMinimum: "The following debt type has an amount below $250:",
+    medicalStudentLoanWarning: "Medical Bills / Student Loans should not exceed 50% of the total debt",
+    sendToClarity: "Send to Clarity",
+    addressChecklist: "Address Checklist",
+    addressInformation: "Address Information",
+    qualificationChecklist: "Qualification Checklist",
+    inputContactNameStateLanguage: "Input Contact Name, State and Language",
+    employmentChecklist: "Employment Checklist",
+    employmentInformation: "Employment Information",
+    ssnChecklist: "SSN Checklist",
+    socialSecurityNumber: "Social Security Number",
+    hardshipChecklist: "Hardship Checklist",
+    hardshipInformation: "Hardship Information",
+    accountChecklist: "Account Checklist",
+    onlyEnrolledDebtsSelected: "Only Enrolled debts are selected",
+    backEndChecklist: "Back-end Checklist",
+    backEndChosen: "Back-end Chosen",
+    budgetChecklist: "Budget Checklist",
+    budgetAnalysis: "Budget Analysis",
+    bankingChecklist: "Banking Checklist",
+    bankingInformation: "Banking Information",
+    scheduledPaymentChecklist: "Scheduled Payment Checklist",
+    scheduledFirstPayment: "Scheduled First Payment",
+    complianceChecklist: "Compliance Checklist",
+    complianceQuestionsAsked: "Compliance questions asked and recorded",
+    packageChecklist: "Package Checklist",
+    correctPackageSelected: "Correct Package was selected, and SMS sent",
+    contractChecklist: "Contract Checklist",
+    contractSignedByClient: "Contract signed by client"
+  },
+  es: {
+    addDebt: "Agregar Deuda",
+    checkDebt: "Verificar Deuda",
+    continue: "Continuar",
+    back: "← Atrás",
+    home: "🏠 Inicio",
+    copy: "Copiar",
+    clear: "Borrar",
+    saveNotes: "Guardar Notas",
+    clean: "Limpiar",
+    debtBreakdown: "Desglose de la Deuda",
+    debtType: "Tipo de Deuda",
+    amount: "Cantidad",
+    selectOption: "-- Seleccione una opción --",
+    selectState: "-- Seleccione un estado --",
+    totalDebt: "Total de Deuda:",
+    selectYourState: "Seleccione su Estado",
+    callLog: "Registro de Llamada",
+    noLogEntries: "No hay entradas en el registro",
+    agentNotes: "Notas del Agente",
+    enterNotesHere: "Escriba notas aquí...",
+    agentChecklist: "Lista de Verificación del Agente",
+    completion: "Completado:",
+    ineligibleDebtType: "Tipo de Deuda No Elegible",
+    checkOtherDebt: "Verificar Otra Deuda",
+    startOver: "Comenzar de Nuevo",
+    selectedObjection: "Objeción Seleccionada",
+    close: "Cerrar",
+    incompleteChecklist: "Lista de Verificación Incompleta",
+    exitAnyway: "Salir de Todos Modos",
+    continueWorking: "Continuar Trabajando",
+    loanReferral: "Referencia de Préstamo",
+    debtConsolidation: "Consolidación de Deuda",
+    creditRepair: "Reparación de Crédito",
+    thisDebtTypeNotEligible: "Este tipo de deuda no es elegible",
+    selectFlow: "Seleccionar Flujo",
+    cancel: "Cancelar",
+    qualificationCriteria: "Criterios de Calificación",
+    debtRequirements: "Requisitos de Deuda",
+    monthlyPaymentMinimums: "Pagos Mensuales Mínimos por Carga de Deuda",
+    programDurationLimits: "Límites de Duración del Programa",
+    clientPaymentRequirements: "Requisitos de Pago del Cliente",
+    documentationRequirements: "Requisitos de Documentación",
+    specificAcceptableCreditors: "Acreedores Aceptables Específicos",
+    disqualifiersUnacceptableDebt: "❌ Descalificadores / Deuda Inaceptable",
+    warning: "Advertencia",
+    success: "Éxito",
+    debtTotalCheckCleared: "Verificación de Deuda Total Aprobada",
+    proceed: "Proceder",
+    debtNotQualified: "Deuda No Calificada",
+    debtBelowMinimum: "El siguiente tipo de deuda tiene un monto inferior a $250:",
+    medicalStudentLoanWarning: "Las Facturas Médicas / Préstamos Estudiantiles no deben exceder el 50% de la deuda total",
+    sendToClarity: "Enviar a Clarity",
+    addressChecklist: "Lista de Verificación de Domicilio",
+    addressInformation: "Información de Domicilio",
+    qualificationChecklist: "Lista de Verificación de Calificación",
+    inputContactNameStateLanguage: "Ingresar Nombre, Estado y Lenguaje",
+    employmentChecklist: "Lista de Verificación de Empleo",
+    employmentInformation: "Información de Empleo",
+    ssnChecklist: "Lista de Verificación de SSN",
+    socialSecurityNumber: "Número de Seguro Social",
+    hardshipChecklist: "Lista de Verificación de Dificultad",
+    hardshipInformation: "Información de Dificultad",
+    accountChecklist: "Lista de Verificación de Cuenta",
+    onlyEnrolledDebtsSelected: "Solo se seleccionaron deudas adeudadas",
+    backEndChecklist: "Lista de Verificación Final",
+    backEndChosen: "Final Seleccionado",
+    budgetChecklist: "Lista de Verificación de Presupuesto",
+    budgetAnalysis: "Análisis de Presupuesto",
+    bankingChecklist: "Lista de Verificación Bancaria",
+    bankingInformation: "Información Bancaria",
+    scheduledPaymentChecklist: "Lista de Verificación de Pago Programado",
+    scheduledFirstPayment: "Pago Programado Inicial y Frecuencia",
+    complianceChecklist: "Lista de Verificación de Cumplimiento",
+    complianceQuestionsAsked: "Preguntas de Cumplimiento y Registro",
+    packageChecklist: "Lista de Verificación de Paquete",
+    correctPackageSelected: "Paquete Correcto Seleccionado, y SMS enviado",
+    contractChecklist: "Lista de Verificación de Contrato",
+    contractSignedByClient: "Contrato firmado por el cliente"
+  }
+};
 
 function App() {
   const [language, setLanguage] = useState("en");
@@ -1441,11 +1587,32 @@ function App() {
               />
 
               {currentStep.id === "addressConfirmation" && (
-                <div className="mb-4 p-3 bg-yellow-100 border border-yellow-400 rounded-lg">
-                  <p className="text-yellow-800 font-medium">
-                    <strong>Note:</strong> If no email address, input "noemail@gmail.com"
-                  </p>
-                </div>
+                <>
+                  <div className="mb-4 p-3 bg-yellow-100 border border-yellow-400 rounded-lg">
+                    <p className="text-yellow-800 font-medium">
+                      <strong>Note:</strong> If no email address, input "noemail@gmail.com"
+                    </p>
+                  </div>
+                  
+                  <div className="mb-4 p-3 border rounded-lg bg-gray-50">
+                    <h3 className="font-semibold mb-3">
+                      {uiTranslations[language].addressChecklist}
+                    </h3>
+                    <div className="space-y-2">
+                      <div className="flex items-center bg-white p-2 rounded">
+                        <input
+                          type="checkbox"
+                          checked={checklist["2"]}
+                          onChange={() => handleChecklistToggle("2")}
+                          className="h-4 w-4 text-blue-600 rounded border-gray-300"
+                        />
+                        <label className="ml-2 text-sm">
+                          {uiTranslations[language].addressInformation}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </>
               )}
 
               {currentStep.id === "accountConfirmation" && currentStep.note && (
@@ -1487,7 +1654,7 @@ function App() {
                 <div className="mb-6 space-y-4">
                   <div className="grid gap-4">
                     <div className="p-3 border rounded-lg bg-gray-50">
-                      <h3 className="font-semibold mb-2">{language === "es" ? "Desglose de la Deuda" : "Debt Breakdown"}</h3>
+                      <h3 className="font-semibold mb-2">{uiTranslations[language].debtBreakdown}</h3>
                       
                       {debtEntries.map((entry, index) => (
                         <div key={index} className="mb-2 p-2 border rounded bg-white">
@@ -1495,7 +1662,7 @@ function App() {
                             {/* Debt Type Selector */}
                             <div>
                               <label className="block text-sm font-medium text-gray-700 mb-1">
-                                {language === "es" ? "Tipo de Deuda" : "Debt Type"}
+                                {uiTranslations[language].debtType}
                               </label>
                               <select
                                 value={entry.type}
@@ -1503,7 +1670,7 @@ function App() {
                                 className="w-full p-2 border rounded-md shadow-sm"
                               >
                                 <option value="">
-                                  {language === "es" ? "-- Seleccione una opción --" : "-- Select an option --"}
+                                  {uiTranslations[language].selectOption}
                                 </option>
                                 {debtTypes.map((debtType) => (
                                   <option key={debtType} value={debtType}>
@@ -1516,7 +1683,7 @@ function App() {
                             {/* Amount Input */}
                             <div>
                               <label className="block text-sm font-medium text-gray-700 mb-1">
-                                {language === "es" ? "Cantidad" : "Amount"}
+                                {uiTranslations[language].amount}
                               </label>
                               <div className="flex gap-2">
                                 <input
@@ -1564,13 +1731,13 @@ function App() {
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                           <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
                         </svg>
-                        Add Debt
+                        {uiTranslations[language].addDebt}
                       </button>
 
                       {/* Total */}
                       <div className="flex justify-between items-center mt-4">
                         <span className="font-semibold">
-                          {language === "es" ? "Total de Deuda:" : "Total Debt:"}
+                          {uiTranslations[language].totalDebt}
                         </span>
                         <span className="text-xl font-bold text-blue-600">
                           {formatCurrency(totalDebt)}
@@ -1582,7 +1749,7 @@ function App() {
                         onClick={checkDebtPercentages}
                         className="mt-4 w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
                       >
-                        Check Debt
+                        {uiTranslations[language].checkDebt}
                       </button>
                     </div>
                   </div>
@@ -1594,7 +1761,7 @@ function App() {
                   <div className="grid gap-4">
                     <div className="p-4 border rounded-lg bg-gray-50">
                       <h3 className="font-semibold mb-4">
-                        {language === "es" ? "Seleccione su Estado" : "Select your State"}
+                        {uiTranslations[language].selectYourState}
                       </h3>
                       <select
                         value={selectedState}
@@ -1611,7 +1778,7 @@ function App() {
                         className="w-full p-2 border rounded-md shadow-sm mb-4"
                       >
                         <option value="">
-                          {language === "es" ? "-- Seleccione un estado --" : "-- Select a state --"}
+                          {uiTranslations[language].selectState}
                         </option>
                         {states.map((state) => (
                           <option key={state} value={state}>
@@ -1630,40 +1797,312 @@ function App() {
               )}
 
               {currentStep.id === "qualify" && (
-                <div className="mb-6 space-y-4">
-                  <div className="grid gap-4">
-                    <div className="p-4 border rounded-lg bg-gray-50">
-                      <h3 className="font-semibold mb-4">
-                        {language === "es" ? "Seleccione su Estado" : "Select your State"}
-                      </h3>
-                      <select
-                        value={selectedState}
-                        onChange={(e) => {
-                          const state = e.target.value;
-                          handleStateSelection(state);
-                          if (state) {
-                            const stateName = language === "es" ? translatedStates[state] : state;
-                            const note = `State selected: ${stateName} (${state})`;
-                            setNotes(prev => prev ? `${prev}\n${note}` : note);
-                            addToLog(note);
-                          }
-                        }}
-                        className="w-full p-2 border rounded-md shadow-sm mb-4"
-                      >
-                        <option value="">
-                          {language === "es" ? "-- Seleccione un estado --" : "-- Select a state --"}
-                        </option>
-                        {states.map((state) => (
-                          <option key={state} value={state}>
-                            {language === "es" ? translatedStates[state] : state}
+                <>
+                  <div className="mb-6 space-y-4">
+                    <div className="grid gap-4">
+                      <div className="p-4 border rounded-lg bg-gray-50">
+                        <h3 className="font-semibold mb-4">
+                          {uiTranslations[language].selectYourState}
+                        </h3>
+                        <select
+                          value={selectedState}
+                          onChange={(e) => {
+                            const state = e.target.value;
+                            handleStateSelection(state);
+                            if (state) {
+                              const stateName = language === "es" ? translatedStates[state] : state;
+                              const note = `State selected: ${stateName} (${state})`;
+                              setNotes(prev => prev ? `${prev}\n${note}` : note);
+                              addToLog(note);
+                            }
+                          }}
+                          className="w-full p-2 border rounded-md shadow-sm mb-4"
+                        >
+                          <option value="">
+                            {uiTranslations[language].selectState}
                           </option>
-                        ))}
-                      </select>
-                      {selectedState && stateNotes[selectedState] && (
-                        <p className="mt-2 text-sm text-gray-600 italic">
-                          Note: {stateNotes[selectedState]}
-                        </p>
-                      )}
+                          {states.map((state) => (
+                            <option key={state} value={state}>
+                              {language === "es" ? translatedStates[state] : state}
+                            </option>
+                          ))}
+                        </select>
+                        {selectedState && stateNotes[selectedState] && (
+                          <p className="mt-2 text-sm text-gray-600 italic">
+                            Note: {stateNotes[selectedState]}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="mb-4 p-3 border rounded-lg bg-gray-50">
+                    <h3 className="font-semibold mb-3">
+                      {uiTranslations[language].qualificationChecklist}
+                    </h3>
+                    <div className="space-y-2">
+                      <div className="flex items-center bg-white p-2 rounded">
+                        <input
+                          type="checkbox"
+                          checked={checklist["1"]}
+                          onChange={() => handleChecklistToggle("1")}
+                          className="h-4 w-4 text-blue-600 rounded border-gray-300"
+                        />
+                        <label className="ml-2 text-sm">
+                          {uiTranslations[language].inputContactNameStateLanguage}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {currentStep.id === "employmentConfirmation" && (
+                <div className="mb-4 p-3 border rounded-lg bg-gray-50">
+                  <h3 className="font-semibold mb-3">
+                    {uiTranslations[language].employmentChecklist}
+                  </h3>
+                  <div className="space-y-2">
+                    <div className="flex items-center bg-white p-2 rounded">
+                      <input
+                        type="checkbox"
+                        checked={checklist["3"]}
+                        onChange={() => handleChecklistToggle("3")}
+                        className="h-4 w-4 text-blue-600 rounded border-gray-300"
+                      />
+                      <label className="ml-2 text-sm">
+                        {uiTranslations[language].employmentInformation}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {currentStep.id === "ssnConfirmation" && (
+                <div className="mb-4 p-3 border rounded-lg bg-gray-50">
+                  <h3 className="font-semibold mb-3">
+                    {uiTranslations[language].ssnChecklist}
+                  </h3>
+                  <div className="space-y-2">
+                    <div className="flex items-center bg-white p-2 rounded">
+                      <input
+                        type="checkbox"
+                        checked={checklist["4"]}
+                        onChange={() => handleChecklistToggle("4")}
+                        className="h-4 w-4 text-blue-600 rounded border-gray-300"
+                      />
+                      <label className="ml-2 text-sm">
+                        {uiTranslations[language].socialSecurityNumber}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {currentStep.id === "hardshipInformation" && (
+                <div className="mb-4 p-3 border rounded-lg bg-gray-50">
+                  <h3 className="font-semibold mb-3">
+                    {uiTranslations[language].hardshipChecklist}
+                  </h3>
+                  <div className="space-y-2">
+                    <div className="flex items-center bg-white p-2 rounded">
+                      <input
+                        type="checkbox"
+                        checked={checklist["5"]}
+                        onChange={() => handleChecklistToggle("5")}
+                        className="h-4 w-4 text-blue-600 rounded border-gray-300"
+                      />
+                      <label className="ml-2 text-sm">
+                        {uiTranslations[language].hardshipInformation}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {currentStep.id === "accountConfirmation" && (
+                <>
+                  {currentStep.note && (
+                    <div className="mb-4 p-3 bg-yellow-100 border border-yellow-400 rounded-lg">
+                      <p className="text-yellow-800 font-medium">
+                        <strong>Note:</strong> {currentStep.note}
+                      </p>
+                    </div>
+                  )}
+                  
+                  <div className="mb-4 p-3 border rounded-lg bg-gray-50">
+                    <h3 className="font-semibold mb-3">
+                      {uiTranslations[language].accountChecklist}
+                    </h3>
+                    <div className="space-y-2">
+                      <div className="flex items-center bg-white p-2 rounded">
+                        <input
+                          type="checkbox"
+                          checked={checklist["6"]}
+                          onChange={() => handleChecklistToggle("6")}
+                          className="h-4 w-4 text-blue-600 rounded border-gray-300"
+                        />
+                        <label className="ml-2 text-sm">
+                          {uiTranslations[language].onlyEnrolledDebtsSelected}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {currentStep.id === "backEndSelection" && (
+                <div className="mb-4 p-3 border rounded-lg bg-gray-50">
+                  <h3 className="font-semibold mb-3">
+                    {uiTranslations[language].backEndChecklist}
+                  </h3>
+                  <div className="space-y-2">
+                    <div className="flex items-center bg-white p-2 rounded">
+                      <input
+                        type="checkbox"
+                        checked={checklist["7"]}
+                        onChange={() => handleChecklistToggle("7")}
+                        className="h-4 w-4 text-blue-600 rounded border-gray-300"
+                      />
+                      <label className="ml-2 text-sm">
+                        {uiTranslations[language].backEndChosen}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {currentStep.id === "budgetAnalysis" && (
+                <div className="mb-4 p-3 border rounded-lg bg-gray-50">
+                  <h3 className="font-semibold mb-3">
+                    {uiTranslations[language].budgetChecklist}
+                  </h3>
+                  <div className="space-y-2">
+                    <div className="flex items-center bg-white p-2 rounded">
+                      <input
+                        type="checkbox"
+                        checked={checklist["8"]}
+                        onChange={() => handleChecklistToggle("8")}
+                        className="h-4 w-4 text-blue-600 rounded border-gray-300"
+                      />
+                      <label className="ml-2 text-sm">
+                        {uiTranslations[language].budgetAnalysis}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {currentStep.id === "bankingInformation" && (
+                <div className="mb-4 p-3 border rounded-lg bg-gray-50">
+                  <h3 className="font-semibold mb-3">
+                    {uiTranslations[language].bankingChecklist}
+                  </h3>
+                  <div className="space-y-2">
+                    <div className="flex items-center bg-white p-2 rounded">
+                      <input
+                        type="checkbox"
+                        checked={checklist["9"]}
+                        onChange={() => handleChecklistToggle("9")}
+                        className="h-4 w-4 text-blue-600 rounded border-gray-300"
+                      />
+                      <label className="ml-2 text-sm">
+                        {uiTranslations[language].bankingInformation}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {currentStep.id === "scheduledFirstPayment" && (
+                <>
+                  {currentStep.note && (
+                    <div className="mb-4 p-3 bg-yellow-100 border border-yellow-400 rounded-lg">
+                      <p className="text-yellow-800 font-medium">
+                        <strong>Note:</strong> {currentStep.note}
+                      </p>
+                    </div>
+                  )}
+                  
+                  <div className="mb-4 p-3 border rounded-lg bg-gray-50">
+                    <h3 className="font-semibold mb-3">
+                      {uiTranslations[language].scheduledPaymentChecklist}
+                    </h3>
+                    <div className="space-y-2">
+                      <div className="flex items-center bg-white p-2 rounded">
+                        <input
+                          type="checkbox"
+                          checked={checklist["10"]}
+                          onChange={() => handleChecklistToggle("10")}
+                          className="h-4 w-4 text-blue-600 rounded border-gray-300"
+                        />
+                        <label className="ml-2 text-sm">
+                          {uiTranslations[language].scheduledFirstPayment}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {currentStep.id === "complianceQuestions" && (
+                <div className="mb-4 p-3 border rounded-lg bg-gray-50">
+                  <h3 className="font-semibold mb-3">
+                    {uiTranslations[language].complianceChecklist}
+                  </h3>
+                  <div className="space-y-2">
+                    <div className="flex items-center bg-white p-2 rounded">
+                      <input
+                        type="checkbox"
+                        checked={checklist["11"]}
+                        onChange={() => handleChecklistToggle("11")}
+                        className="h-4 w-4 text-blue-600 rounded border-gray-300"
+                      />
+                      <label className="ml-2 text-sm">
+                        {uiTranslations[language].complianceQuestionsAsked}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {currentStep.id === "correctPackageSelected" && (
+                <div className="mb-4 p-3 border rounded-lg bg-gray-50">
+                  <h3 className="font-semibold mb-3">
+                    {uiTranslations[language].packageChecklist}
+                  </h3>
+                  <div className="space-y-2">
+                    <div className="flex items-center bg-white p-2 rounded">
+                      <input
+                        type="checkbox"
+                        checked={checklist["12"]}
+                        onChange={() => handleChecklistToggle("12")}
+                        className="h-4 w-4 text-blue-600 rounded border-gray-300"
+                      />
+                      <label className="ml-2 text-sm">
+                        {uiTranslations[language].correctPackageSelected}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {currentStep.id === "contractSignedByClient" && (
+                <div className="mb-4 p-3 border rounded-lg bg-gray-50">
+                  <h3 className="font-semibold mb-3">
+                    {uiTranslations[language].contractChecklist}
+                  </h3>
+                  <div className="space-y-2">
+                    <div className="flex items-center bg-white p-2 rounded">
+                      <input
+                        type="checkbox"
+                        checked={checklist["13"]}
+                        onChange={() => handleChecklistToggle("13")}
+                        className="h-4 w-4 text-blue-600 rounded border-gray-300"
+                      />
+                      <label className="ml-2 text-sm">
+                        {uiTranslations[language].contractSignedByClient}
+                      </label>
                     </div>
                   </div>
                 </div>
@@ -1683,15 +2122,10 @@ function App() {
                       <button
                         key={idx}
                         onClick={() => {
-                          if (currentStep.id === "checkState" && option.text === "Continue") {
-                            handleStateStepContinue();
-                          } else {
-                            handleStepChange(option);
-                          }
+                          handleStepChange(option);
                         }}
                         disabled={
-                          (currentStep.id === "checkState" && option.text === "Continue" && !selectedState) ||
-                          (currentStep.id === "qualify" && option.text === "Yes" && !checklist["1"]) ||
+                          (currentStep.id === "qualify" && (option.text === "Continue" || option.text === "Continuar") && !checklist["1"]) ||
                           (currentStep.id === "checkDebt" && option.text === "≥ $10,000" && totalDebt < 10000) ||
                           (currentStep.id === "addressConfirmation" && (option.text === "Continue" || option.text === "Continuar") && !checklist["2"]) ||
                           (currentStep.id === "employmentConfirmation" && (option.text === "Continue" || option.text === "Continuar") && !checklist["3"]) ||
@@ -1707,8 +2141,7 @@ function App() {
                           (currentStep.id === "contractSignedByClient" && (option.text === "Continue" || option.text === "Continuar") && !checklist["13"])
                         }
                         className={`bg-blue-600 text-white py-1 px-3 text-sm rounded hover:bg-blue-700 text-left ${
-                          (currentStep.id === "checkState" && option.text === "Continue" && !selectedState) ||
-                          (currentStep.id === "qualify" && option.text === "Yes" && !checklist["1"]) ||
+                          (currentStep.id === "qualify" && (option.text === "Continue" || option.text === "Continuar") && !checklist["1"]) ||
                           (currentStep.id === "checkDebt" && option.text === "≥ $10,000" && totalDebt < 10000) ||
                           (currentStep.id === "addressConfirmation" && (option.text === "Continue" || option.text === "Continuar") && !checklist["2"]) ||
                           (currentStep.id === "employmentConfirmation" && (option.text === "Continue" || option.text === "Continuar") && !checklist["3"]) ||
@@ -1740,20 +2173,17 @@ function App() {
                           if (prevStep) {
                             setStep(prevStep);
                             addToLog(`Moved back to "${prevStep.label}"`);
-                          } else if (currentStep.id === "elevateFSPFlow" || currentStep.id === "clarityFlow") {
-                            setStep(currentFlow.checkState);
-                            addToLog(`Moved back to "${currentFlow.checkState.label}"`);
                           }
                         }}
                         className="bg-blue-600 text-white py-1 px-3 text-sm rounded hover:bg-blue-700 text-center"
                       >
-                        {language === "es" ? "← Atrás" : "← Back"}
+                        {uiTranslations[language].back}
                       </button>
                       <button
                         onClick={handleHomeClick}
                         className="bg-red-600 text-white py-1 px-3 text-sm rounded hover:bg-red-700 text-center"
                       >
-                        {language === "es" ? "🏠 Inicio" : "🏠 Home"}
+                        {uiTranslations[language].home}
                       </button>
                     </>
                   )}
@@ -1770,15 +2200,15 @@ function App() {
             <div className="grid gap-1">
               <button 
                 className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 shadow text-sm" 
-                onClick={() => setStep({ id: "loanReferral", label: language === "es" ? "Referencia de Préstamo" : "Loan Referral", script: language === "es" ? "Script de Referencia de Préstamo" : "Loan Referral Script", options: [{ text: language === "es" ? "Volver" : "Back", next: "start" }] })}
+                onClick={() => setStep({ id: "loanReferral", label: uiTranslations[language].loanReferral, script: language === "es" ? "Script de Referencia de Préstamo" : "Loan Referral Script", options: [{ text: uiTranslations[language].back, next: "start" }] })}
               >
-                {language === "es" ? "Referencia de Préstamo" : "Loan Referral"}
+                {uiTranslations[language].loanReferral}
               </button>
               <button 
                 className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 shadow text-sm" 
-                onClick={() => setStep({ id: "debtConsolidation", label: language === "es" ? "Consolidación de Deuda" : "Debt Consolidation", script: language === "es" ? "Script de Consolidación de Deuda" : "Debt Consolidation Script", options: [{ text: language === "es" ? "Volver" : "Back", next: "start" }] })}
+                onClick={() => setStep({ id: "debtConsolidation", label: uiTranslations[language].debtConsolidation, script: language === "es" ? "Script de Consolidación de Deuda" : "Debt Consolidation Script", options: [{ text: uiTranslations[language].back, next: "start" }] })}
               >
-                {language === "es" ? "Consolidación de Deuda" : "Debt Consolidation"}
+                {uiTranslations[language].debtConsolidation}
               </button>
             </div>
           </div>
@@ -1787,27 +2217,27 @@ function App() {
           <div className="bg-white shadow-lg rounded-2xl p-4 mb-4">
             <div className="flex justify-between items-center mb-4">
               <h2 className="font-semibold text-lg">
-                {language === "es" ? "Registro de Llamada" : "Call Log"}
+                {uiTranslations[language].callLog}
               </h2>
               <div className="space-x-2">
                 <button
                   onClick={handleCopyLog}
                   className="px-2 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 copy-log-btn"
                 >
-                  {language === "es" ? "Copiar" : "Copy"}
+                  {uiTranslations[language].copy}
                 </button>
                 <button
                   onClick={handleClearLog}
                   className="px-2 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700"
                 >
-                  {language === "es" ? "Borrar" : "Clear"}
+                  {uiTranslations[language].clear}
                 </button>
               </div>
             </div>
             <div className="h-48 overflow-y-auto border rounded p-2 text-sm font-mono bg-gray-50">
               {callLog.length === 0 ? (
                 <p className="text-gray-500 italic">
-                  {language === "es" ? "No hay entradas en el registro" : "No log entries"}
+                  {uiTranslations[language].noLogEntries}
                 </p>
               ) : (
                 callLog.map((entry, index) => (
@@ -1821,10 +2251,10 @@ function App() {
 
           {/* Agent Notes Section */}
           <div className="bg-white shadow-lg rounded-2xl p-4">
-            <h2 className="font-semibold mb-2 text-lg">{language === "es" ? "Notas del Agente" : "Agent Notes"}</h2>
+            <h2 className="font-semibold mb-2 text-lg">{uiTranslations[language].agentNotes}</h2>
             <textarea
               className="w-full h-32 p-2 border rounded-md mb-2"
-              placeholder={language === "es" ? "Escriba notas aquí..." : "Enter notes here..."}
+              placeholder={uiTranslations[language].enterNotesHere}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
             />
@@ -1835,19 +2265,19 @@ function App() {
               }}
               className="bg-green-600 text-white py-1 px-3 rounded hover:bg-green-700 text-sm mb-4"
             >
-              {language === "es" ? "Guardar Notas" : "Save Notes"}
+              {uiTranslations[language].saveNotes}
             </button>
             <button
               onClick={() => setNotes("")}
               className="bg-red-600 text-white py-1 px-3 rounded hover:bg-red-700 text-sm mb-4 ml-2"
             >
-              {language === "es" ? "Limpiar" : "Clear"}
+              {uiTranslations[language].clean}
             </button>
 
             {/* Call Completion Checklist */}
             <div className="mt-4 border-t pt-4">
               <h3 className="font-semibold mb-2">
-                {language === "es" ? "Lista de Verificación del Agente" : "Agent Checklist"}
+                {uiTranslations[language].agentChecklist}
               </h3>
               
               {/* Progress Bar */}
@@ -1858,10 +2288,7 @@ function App() {
                 />
               </div>
               <p className="text-sm text-gray-600 mb-3">
-                {language === "es" 
-                  ? `Completado: ${checklistCompletion}%`
-                  : `Completion: ${checklistCompletion}%`
-                }
+                {uiTranslations[language].completion} {checklistCompletion}%
               </p>
 
               {/* Checklist Items */}
