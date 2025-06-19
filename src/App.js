@@ -414,7 +414,7 @@ const flow = {
       { text: "Yes", next: "softCreditPull" },
       { text: "No", next: "start" }
     ]
-  }
+  },
 };
 
 const translatedFlow = {
@@ -570,16 +570,16 @@ const translatedFlow = {
   },
   complianceQuestions: {
     id: "complianceQuestions",
-    label: "Compliance Questions Asked and Recorded",
-    script: "I'm so happy we could work together to save you thousands of dollars. Again this is more money that will be yours to spend on whatever you want or need.\n\nNow I have to do our compliance call. This just means that you I have to ask you some questions to make sure you fully understand our program and agree to work with us, but if you have any questions, you can ask. Sorry in advance, it might take a few minutes to finish all of these questions",
+    label: "Preguntas de Cumplimiento Realizadas y Registradas",
+    script: "Estoy muy feliz de que pudiéramos trabajar juntos para ahorrarle miles de dólares. Nuevamente, este es más dinero que será suyo para gastar en lo que quiera o necesite.\n\nAhora tengo que hacer nuestra llamada de cumplimiento. Esto significa que tengo que hacerle algunas preguntas para asegurarme de que entiende completamente nuestro programa y está de acuerdo en trabajar con nosotros, pero si tiene alguna pregunta, puede preguntarme. Disculpe de antemano, puede tomar unos minutos terminar todas estas preguntas",
     options: [
       { text: "Continue", next: "correctPackageSelected" }
     ]
   },
   correctPackageSelected: {
     id: "correctPackageSelected",
-    label: "Correct Package was selected, and SMS sent",
-    script: "Thank you so much for that! Now I'm going to send you a message to your phone, it will have our contract in it, and you will see all of the details there, and all of your payments. You can just click on the link when you see it, and click the buttons to sign. If you have any questions, let me know and I can help",
+    label: "Paquete Correcto Seleccionado y SMS Enviado",
+    script: "¡Muchas gracias por eso! Ahora voy a enviarle un mensaje a su teléfono, tendrá nuestro contrato en él, y verá todos los detalles allí, y todos sus pagos. Solo tiene que hacer clic en el enlace cuando lo vea, y hacer clic en los botones para firmar. Si tiene alguna pregunta, hágamelo saber y puedo ayudar",
     options: [
       { text: "Continue", next: "contractSignedByClient" }
     ]
@@ -588,7 +588,7 @@ const translatedFlow = {
     id: "contractSignedByClient",
     label: "Contrato Firmado por el Cliente",
     script: "Ok, acabo de recibir la nota de que firmó esto, ¡gracias!\n\nSi fuera usted, guardaría este número en su teléfono para que sepa cuándo llaman en caso de que se lo pierda, puede devolverles la llamada. El número de teléfono es 561-763-8380, y están abiertos de 6AM a 3PM hora del Pacífico",
-    note: "Si Elevate: Entonces lo que va a pasar ahora es que nuestro equipo de gestión le dará una llamada dentro de las 24 horas solo para presentarse y decir Hola, y puede hacerles cualquier pregunta que pueda tener. También le darán los detalles sobre cómo ver todos sus pagos en línea si quiere.",
+    note: "If Elevate: Entonces lo que va a pasar ahora es que nuestro equipo de gestión le dará una llamada dentro de las 24 horas solo para presentarse y decir Hola, y puede hacerles cualquier pregunta que pueda tener. También le darán los detalles sobre cómo ver todos sus pagos en línea si quiere.",
     options: [
       { text: "Continue", next: "softCreditPull" }
     ]

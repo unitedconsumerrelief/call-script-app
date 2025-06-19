@@ -2,7 +2,7 @@
   "name": "call-script-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://DuckVader611.github.io/call-script-app",
+  "homepage": "https://unitedconsumerrelief.github.io/call-script-app",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
