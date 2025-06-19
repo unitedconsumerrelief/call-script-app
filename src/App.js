@@ -251,6 +251,23 @@ const flow = {
     label: "Compliance Questions Asked and Recorded",
     script: "I'm so happy we could work together to save you thousands of dollars. Again this is more money that will be yours to spend on whatever you want or need.\n\nNow I have to do our compliance call. This just means that you I have to ask you some questions to make sure you fully understand our program and agree to work with us, but if you have any questions, you can ask. Sorry in advance, it might take a few minutes to finish all of these questions",
     options: [
+      { text: "Continue", next: "correctPackageSelected" }
+    ]
+  },
+  correctPackageSelected: {
+    id: "correctPackageSelected",
+    label: "Correct Package was selected, and SMS sent",
+    script: "Thank you so much for that! Now I'm going to send you a message to your phone, it will have our contract in it, and you will see all of the details there, and all of your payments. You can just click on the link when you see it, and click the buttons to sign. If you have any questions, let me know and I can help",
+    options: [
+      { text: "Continue", next: "contractSignedByClient" }
+    ]
+  },
+  contractSignedByClient: {
+    id: "contractSignedByClient",
+    label: "Contract signed by client",
+    script: "Ok I just received the note that you signed this, thank you!\n\nIf I were you, I would save this number in your phone so you know when they call in case you miss it, you can call them back. The phone number is 561-763-8380, and they are open 6AM to 3PM Pacific Time",
+    note: "If Elevate: So what's going to happen now is our managing team is going to give you a call within 24 hours just to introduce themselves and say Hi, and you can ask them any questions you might have. They are also going to give you the details on how to see all of your payments online if you want to.",
+    options: [
       { text: "Continue", next: "softCreditPull" }
     ]
   },
@@ -574,6 +591,23 @@ const translatedFlow = {
     label: "Compliance Questions Asked and Recorded",
     script: "I'm so happy we could work together to save you thousands of dollars. Again this is more money that will be yours to spend on whatever you want or need.\n\nNow I have to do our compliance call. This just means that you I have to ask you some questions to make sure you fully understand our program and agree to work with us, but if you have any questions, you can ask. Sorry in advance, it might take a few minutes to finish all of these questions",
     options: [
+      { text: "Continue", next: "correctPackageSelected" }
+    ]
+  },
+  correctPackageSelected: {
+    id: "correctPackageSelected",
+    label: "Correct Package was selected, and SMS sent",
+    script: "Thank you so much for that! Now I'm going to send you a message to your phone, it will have our contract in it, and you will see all of the details there, and all of your payments. You can just click on the link when you see it, and click the buttons to sign. If you have any questions, let me know and I can help",
+    options: [
+      { text: "Continue", next: "contractSignedByClient" }
+    ]
+  },
+  contractSignedByClient: {
+    id: "contractSignedByClient",
+    label: "Contract signed by client",
+    script: "Ok I just received the note that you signed this, thank you!\n\nIf I were you, I would save this number in your phone so you know when they call in case you miss it, you can call them back. The phone number is 561-763-8380, and they are open 6AM to 3PM Pacific Time",
+    note: "If Elevate: So what's going to happen now is our managing team is going to give you a call within 24 hours just to introduce themselves and say Hi, and you can ask them any questions you might have. They are also going to give you the details on how to see all of your payments online if you want to.",
+    options: [
       { text: "Continue", next: "softCreditPull" }
     ]
   },
@@ -599,7 +633,7 @@ const translatedFlow = {
     label: "Pull de Crédito Suave para Protección al Consumidor",
     script: "Gracias por confirmar, ahora haremos un pull de crédito suave como se requiere por el Programa de Protección al Consumidor. Esto puede o no afectar su puntaje de crédito, pero puede estar tranquilo de que seguir este programa le dará más beneficios que cualquier impacto temporal. ¿Le gustaría continuar?",
     options: [
-      { text: "Continuar", next: "consumerShieldCheckState" }
+      { text: "Continue", next: "consumerShieldCheckState" }
     ]
   },
   consumerShieldCheckState: {
@@ -607,7 +641,7 @@ const translatedFlow = {
     label: "Revisión de Estado para Protección al Consumidor",
     script: "¿En qué estado reside? (El Programa de Protección al Consumidor no está disponible en CO, PA, NJ, OR)",
     options: [
-      { text: "Continuar", next: "consumerShieldQualified" }
+      { text: "Continue", next: "consumerShieldQualified" }
     ]
   },
   consumerShieldQualified: {
@@ -970,7 +1004,8 @@ function App() {
     12: false,
     13: false,
     14: false,
-    15: false
+    15: false,
+    16: false
   });
   
   // Add state for debt entries
@@ -1667,7 +1702,9 @@ function App() {
                           (currentStep.id === "budgetAnalysis" && (option.text === "Continue" || option.text === "Continuar") && !checklist["8"]) ||
                           (currentStep.id === "bankingInformation" && !checklist["9"]) ||
                           (currentStep.id === "scheduledFirstPayment" && (option.text === "Continue" || option.text === "Continuar") && !checklist["10"]) ||
-                          (currentStep.id === "complianceQuestions" && (option.text === "Continue" || option.text === "Continuar") && !checklist["11"])
+                          (currentStep.id === "complianceQuestions" && (option.text === "Continue" || option.text === "Continuar") && !checklist["11"]) ||
+                          (currentStep.id === "correctPackageSelected" && (option.text === "Continue" || option.text === "Continuar") && !checklist["12"]) ||
+                          (currentStep.id === "contractSignedByClient" && (option.text === "Continue" || option.text === "Continuar") && !checklist["13"])
                         }
                         className={`bg-blue-600 text-white py-1 px-3 text-sm rounded hover:bg-blue-700 text-left ${
                           (currentStep.id === "checkState" && option.text === "Continue" && !selectedState) ||
@@ -1682,7 +1719,9 @@ function App() {
                           (currentStep.id === "budgetAnalysis" && (option.text === "Continue" || option.text === "Continuar") && !checklist["8"]) ||
                           (currentStep.id === "bankingInformation" && !checklist["9"]) ||
                           (currentStep.id === "scheduledFirstPayment" && (option.text === "Continue" || option.text === "Continuar") && !checklist["10"]) ||
-                          (currentStep.id === "complianceQuestions" && (option.text === "Continue" || option.text === "Continuar") && !checklist["11"])
+                          (currentStep.id === "complianceQuestions" && (option.text === "Continue" || option.text === "Continuar") && !checklist["11"]) ||
+                          (currentStep.id === "correctPackageSelected" && (option.text === "Continue" || option.text === "Continuar") && !checklist["12"]) ||
+                          (currentStep.id === "contractSignedByClient" && (option.text === "Continue" || option.text === "Continuar") && !checklist["13"])
                             ? 'opacity-50 cursor-not-allowed'
                             : ''
                         }`}
@@ -1848,9 +1887,10 @@ function App() {
                       {itemNumber === "10" && "Scheduled First Payment"}
                       {itemNumber === "11" && "Compliance questions asked and recorded, uploaded to 'Docs' section"}
                       {itemNumber === "12" && "Correct Package was selected, and SMS sent"}
-                      {itemNumber === "13" && "Download the signed contract from ClixSign Docs"}
-                      {itemNumber === "14" && "Upload the signed contract for Payment Processing"}
-                      {itemNumber === "15" && "File Submitted"}
+                      {itemNumber === "13" && "Contract signed by client"}
+                      {itemNumber === "14" && "Download the signed contract from ClixSign Docs"}
+                      {itemNumber === "15" && "Upload the signed contract for Payment Processing"}
+                      {itemNumber === "16" && "File Submitted"}
                     </label>
                   </div>
                 ))}
