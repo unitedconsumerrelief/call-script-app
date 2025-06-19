@@ -427,7 +427,7 @@ const translatedFlow = {
   qualify: {
     id: "qualify",
     label: "Calificación",
-    script: "Ha llegado al lugar correcto. ¿Puedo hacerle algunas preguntas rápidas para verificar si califica?",
+    script: "Ha llegado al lugar correcto. Podemos ayudarle a reducir todas sus deudas, ahorrarle miles de dólares, e incluso pagarlas antes de lo que pensaba. Esto le permite tener más dinero en su bolsillo para las cosas que realmente necesita, en lugar de pagar intereses y tarifas por estas deudas. Antes de comenzar, ¿podría proporcionarme su nombre y el estado desde donde está llamando?",
     options: [
       { text: "Continuar", next: "employmentCheck" }
     ]
