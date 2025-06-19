@@ -969,6 +969,7 @@ const uiTranslations = {
     clean: "Clear",
     debtBreakdown: "Debt Breakdown",
     debtType: "Debt Type",
+    creditor: "Creditor/Union",
     amount: "Amount",
     selectOption: "-- Select an option --",
     selectState: "-- Select a state --",
@@ -1035,7 +1036,10 @@ const uiTranslations = {
     packageChecklist: "Package Checklist",
     correctPackageSelected: "Correct Package was selected, and SMS sent",
     contractChecklist: "Contract Checklist",
-    contractSignedByClient: "Contract signed by client"
+    contractSignedByClient: "Contract signed by client",
+    unacceptableCreditorTitle: "Unacceptable Creditor/Union",
+    unacceptableCreditorMessage: "The creditor or credit union you entered is not eligible for our debt relief program. Please enter a different creditor or union.",
+    close: "Close"
   },
   es: {
     addDebt: "Agregar Deuda",
@@ -1049,6 +1053,7 @@ const uiTranslations = {
     clean: "Limpiar",
     debtBreakdown: "Desglose de la Deuda",
     debtType: "Tipo de Deuda",
+    creditor: "Deudor/Unión",
     amount: "Cantidad",
     selectOption: "-- Seleccione una opción --",
     selectState: "-- Seleccione un estado --",
@@ -1115,9 +1120,87 @@ const uiTranslations = {
     packageChecklist: "Lista de Verificación de Paquete",
     correctPackageSelected: "Paquete Correcto Seleccionado, y SMS enviado",
     contractChecklist: "Lista de Verificación de Contrato",
-    contractSignedByClient: "Contrato firmado por el cliente"
+    contractSignedByClient: "Contrato firmado por el cliente",
+    unacceptableCreditorTitle: "Deudor/Unión No Elegible",
+    unacceptableCreditorMessage: "El deudor o unión que ha ingresado no es elegible para nuestro programa de alivio de deudas. Por favor, ingrese un deudor o unión diferente.",
+    close: "Cerrar"
   }
 };
+
+// Unacceptable creditors and credit unions
+const unacceptableCreditors = [
+  "Nebraska Furniture",
+  "Aaron's Rent",
+  "Military Star",
+  "Tower Loan",
+  "SoFi",
+  "RC Willey",
+  "GoodLeap",
+  "1st Heritage Credit Union",
+  "Borrower's First",
+  "Aqua Finance",
+  "Fortiva",
+  "ISPC",
+  "Pentagon FCU",
+  "Rocket Loans",
+  "SRVFINCO",
+  "CNH IND CAP",
+  "OMNI Financial Loan",
+  "Schools First Credit Union Loan",
+  "KOALAFI",
+  "First Commonwealth Bank",
+  "Mariner Finance",
+  "Republic Finance",
+  "Pioneer Credit",
+  "Security Finance",
+  "Harrison Finance",
+  "Heights Finance",
+  "1st Franklin",
+  "Conns Credit",
+  "Covington Finance",
+  "Enerbank",
+  "Lendmark",
+  "Preferred Credit",
+  "Regional Finance",
+  "Paramount",
+  "World Acceptance Corporation",
+  "World Finance",
+  "MyAbundant",
+  "BHG Bankers Healthcare Group",
+  "Duvera Finance",
+  "GRT Amer Fin",
+  "Great American Financial Services"
+];
+
+const unacceptableCreditUnions = [
+  "Altura Credit Union",
+  "Banner Federal Credit Union",
+  "Commonwealth Credit Union",
+  "ENT Federal Credit Union",
+  "Family Security Credit Union",
+  "Fire Department Federal Credit Union",
+  "Law Enforcement Credit Unions",
+  "Mari Sol Federal Credit Union",
+  "Meadows Credit Union",
+  "Partnership Financial Credit Union",
+  "Provident Credit Union",
+  "SAFE Credit Union",
+  "Service Credit Union",
+  "SHELL Federal Credit Union",
+  "Sun Community Federal Credit Union",
+  "United Federal Credit Union",
+  "University Federal Credit Union",
+  "University of Wisconsin Credit Union",
+  "US Eagle Federal Credit Union",
+  "Veridian Credit Union",
+  "Virginia Credit Union",
+  "VA Credit Union",
+  "Visions Federal Credit Union",
+  "Waterfront Federal Credit Union",
+  "Western Federal Credit Union",
+  "UNIFY FCU",
+  "Westerra Credit Union"
+];
 
 function App() {
   const [language, setLanguage] = useState("en");
@@ -1135,6 +1218,8 @@ function App() {
   const [showDebtSuccessModal, setShowDebtSuccessModal] = useState(false);
   const [showDebtAmountWarningModal, setShowDebtAmountWarningModal] = useState(false);
   const [lowDebtType, setLowDebtType] = useState("");
+  const [showUnacceptableCreditorModal, setShowUnacceptableCreditorModal] = useState(false);
+  const [unacceptableCreditorName, setUnacceptableCreditorName] = useState("");
   const [checklist, setChecklist] = useState({
     1: false,
     2: false,
@@ -1156,11 +1241,11 @@ function App() {
   
   // Add state for debt entries
   const [debtEntries, setDebtEntries] = useState([
-    { type: "", amount: 0 },
-    { type: "", amount: 0 },
-    { type: "", amount: 0 },
-    { type: "", amount: 0 },
-    { type: "", amount: 0 }
+    { type: "", creditor: "", amount: 0 },
+    { type: "", creditor: "", amount: 0 },
+    { type: "", creditor: "", amount: 0 },
+    { type: "", creditor: "", amount: 0 },
+    { type: "", creditor: "", amount: 0 }
   ]);
 
   // Calculate total debt
@@ -1180,6 +1265,31 @@ function App() {
       setShowDebtWarningModal(false);
       setShowDebtSuccessModal(false);
     }
+  };
+
+  // Add function to validate creditor
+  const validateCreditor = (creditorName) => {
+    const normalizedName = creditorName.trim().toLowerCase();
+    
+    // Check against unacceptable creditors
+    const isUnacceptableCreditor = unacceptableCreditors.some(creditor => 
+      creditor.toLowerCase().includes(normalizedName) || 
+      normalizedName.includes(creditor.toLowerCase())
+    );
+    
+    // Check against unacceptable credit unions
+    const isUnacceptableCreditUnion = unacceptableCreditUnions.some(creditUnion => 
+      creditUnion.toLowerCase().includes(normalizedName) || 
+      normalizedName.includes(creditUnion.toLowerCase())
+    );
+    
+    if (isUnacceptableCreditor || isUnacceptableCreditUnion) {
+      setUnacceptableCreditorName(creditorName);
+      setShowUnacceptableCreditorModal(true);
+      return false;
+    }
+    
+    return true;
   };
 
   // Update handleDebtAmountChange to include the check
@@ -1205,6 +1315,22 @@ function App() {
       newEntries[index] = { ...newEntries[index], type: value };
       return newEntries;
     });
+  };
+
+  // Handle creditor changes
+  const handleCreditorChange = (index, value) => {
+    setDebtEntries(prev => {
+      const newEntries = [...prev];
+      newEntries[index] = { ...newEntries[index], creditor: value };
+      return newEntries;
+    });
+  };
+
+  // Handle creditor validation on blur
+  const handleCreditorBlur = (index, value) => {
+    if (value.trim()) {
+      validateCreditor(value);
+    }
   };
 
   // Format currency
@@ -1516,7 +1642,7 @@ function App() {
 
   // Add function to handle adding new debt entry
   const handleAddDebtEntry = () => {
-    setDebtEntries(prev => [...prev, { type: "", amount: 0 }]);
+    setDebtEntries(prev => [...prev, { type: "", creditor: "", amount: 0 }]);
   };
 
   // Add function to handle removing debt entry
@@ -1658,7 +1784,7 @@ function App() {
                       
                       {debtEntries.map((entry, index) => (
                         <div key={index} className="mb-2 p-2 border rounded bg-white">
-                          <div className="grid grid-cols-2 gap-2">
+                          <div className="grid grid-cols-3 gap-2">
                             {/* Debt Type Selector */}
                             <div>
                               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -1678,6 +1804,26 @@ function App() {
                                   </option>
                                 ))}
                               </select>
+                            </div>
+
+                            {/* Creditor Input */}
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                                {uiTranslations[language].creditor}
+                              </label>
+                              <input
+                                type="text"
+                                value={entry.creditor}
+                                onChange={(e) => handleCreditorChange(index, e.target.value)}
+                                onBlur={(e) => handleCreditorBlur(index, e.target.value)}
+                                placeholder={language === "es" ? "Nombre del deudor..." : "Creditor name..."}
+                                disabled={!entry.type || unacceptableDebtTypes.includes(entry.type)}
+                                className={`w-full p-2 border rounded ${
+                                  !entry.type || unacceptableDebtTypes.includes(entry.type)
+                                    ? 'bg-gray-100 text-gray-500 cursor-not-allowed'
+                                    : 'bg-white'
+                                }`}
+                              />
                             </div>
 
                             {/* Amount Input */}
@@ -2567,6 +2713,34 @@ function App() {
             >
               Close
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Unacceptable Creditor Modal */}
+      {showUnacceptableCreditorModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h2 className="text-xl font-semibold text-red-600 mb-4">
+              {uiTranslations[language].unacceptableCreditorTitle}
+            </h2>
+            <p className="mb-4">
+              {uiTranslations[language].unacceptableCreditorMessage}
+            </p>
+            <p className="mb-4 text-sm text-gray-600">
+              <strong>{language === "es" ? "Deudor no elegible:" : "Unacceptable creditor:"}</strong> {unacceptableCreditorName}
+            </p>
+            <div className="flex justify-end">
+              <button
+                onClick={() => {
+                  setShowUnacceptableCreditorModal(false);
+                  setUnacceptableCreditorName("");
+                }}
+                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+              >
+                {uiTranslations[language].close}
+              </button>
+            </div>
           </div>
         </div>
       )}
