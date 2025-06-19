@@ -679,9 +679,9 @@ const translatedFlow = {
   loanReferral: {
     id: "loanReferral",
     label: "Referencia de Préstamo",
-    script: "Entiendo que está buscando un préstamo. Si bien no proporcionamos préstamos directamente, podemos ayudarle a comprender sus opciones y potencialmente mejorar sus posibilidades de aprobación a través del alivio de deudas. ¿Le gustaría saber más sobre cómo nuestro programa podría ayudar?",
+    script: "I understand you're looking for a loan. While we don't provide loans directly, we can help you understand your options and potentially improve your chances of approval through debt relief. Would you like to hear more about how our program could help?",
     options: [
-      { text: "Sí", next: "qualify" },
+      { text: "Yes", next: "qualify" },
       { text: "No", next: "start" }
     ]
   },
@@ -965,7 +965,12 @@ function App() {
     7: false,
     8: false,
     9: false,
-    10: false
+    10: false,
+    11: false,
+    12: false,
+    13: false,
+    14: false,
+    15: false
   });
   
   // Add state for debt entries
@@ -1661,7 +1666,8 @@ function App() {
                           (currentStep.id === "backEndSelection" && !checklist["7"]) ||
                           (currentStep.id === "budgetAnalysis" && (option.text === "Continue" || option.text === "Continuar") && !checklist["8"]) ||
                           (currentStep.id === "bankingInformation" && !checklist["9"]) ||
-                          (currentStep.id === "scheduledFirstPayment" && (option.text === "Continue" || option.text === "Continuar") && !checklist["10"])
+                          (currentStep.id === "scheduledFirstPayment" && (option.text === "Continue" || option.text === "Continuar") && !checklist["10"]) ||
+                          (currentStep.id === "complianceQuestions" && (option.text === "Continue" || option.text === "Continuar") && !checklist["11"])
                         }
                         className={`bg-blue-600 text-white py-1 px-3 text-sm rounded hover:bg-blue-700 text-left ${
                           (currentStep.id === "checkState" && option.text === "Continue" && !selectedState) ||
@@ -1675,7 +1681,8 @@ function App() {
                           (currentStep.id === "backEndSelection" && !checklist["7"]) ||
                           (currentStep.id === "budgetAnalysis" && (option.text === "Continue" || option.text === "Continuar") && !checklist["8"]) ||
                           (currentStep.id === "bankingInformation" && !checklist["9"]) ||
-                          (currentStep.id === "scheduledFirstPayment" && (option.text === "Continue" || option.text === "Continuar") && !checklist["10"])
+                          (currentStep.id === "scheduledFirstPayment" && (option.text === "Continue" || option.text === "Continuar") && !checklist["10"]) ||
+                          (currentStep.id === "complianceQuestions" && (option.text === "Continue" || option.text === "Continuar") && !checklist["11"])
                             ? 'opacity-50 cursor-not-allowed'
                             : ''
                         }`}
@@ -1839,6 +1846,11 @@ function App() {
                       {itemNumber === "8" && "Budget Analysis"}
                       {itemNumber === "9" && "Banking Information"}
                       {itemNumber === "10" && "Scheduled First Payment"}
+                      {itemNumber === "11" && "Compliance questions asked and recorded, uploaded to 'Docs' section"}
+                      {itemNumber === "12" && "Correct Package was selected, and SMS sent"}
+                      {itemNumber === "13" && "Download the signed contract from ClixSign Docs"}
+                      {itemNumber === "14" && "Upload the signed contract for Payment Processing"}
+                      {itemNumber === "15" && "File Submitted"}
                     </label>
                   </div>
                 ))}
